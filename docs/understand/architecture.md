@@ -2,22 +2,27 @@
 layout: default
 title: Architecture
 parent: Understanding lakeFS
-description: lakeFS architecture overview. Learn more about lakeFS components, including its S3 API gateway.
+description: >-
+  lakeFS architecture overview. Learn more about lakeFS components, including
+  its S3 API gateway.
 nav_order: 10
 has_children: false
 redirect_from:
-    - ../architecture/index.html
-    - ../architecture/overview.html
+  - ../architecture/index.html
+  - ../architecture/overview.html
 ---
-# Architecture Overview
-{: .no_toc }
 
+# Architecture Overview
+
+{: .no\_toc }
 
 ## Table of contents
-{: .no_toc .text-delta }
+
+{: .no\_toc .text-delta }
 
 1. TOC
-{:toc}
+
+   {:toc}
 
 ## Overview
 
@@ -25,9 +30,9 @@ lakeFS is distributed as a single binary encapsulating several logical services:
 
 The server itself is stateless, meaning you can easily add more instances to handle bigger load.
 
-lakeFS stores data in an underlying [S3 bucket](https://aws.amazon.com/s3/){:target="_blank"} with some of its metadata stored in [PostgreSQL](https://www.postgresql.org/){:target="_blank"}. (see [Data Model](data-model.md))
+lakeFS stores data in an underlying [S3 bucket](https://aws.amazon.com/s3/){:target="\_blank"} with some of its metadata stored in [PostgreSQL](https://www.postgresql.org/){:target="\_blank"}. \(see [Data Model](data-model.md)\)
 
-![Architecture](../assets/img/arch.png)
+![Architecture](../../.gitbook/assets/arch.png)
 
 ## lakeFS Components
 
@@ -41,13 +46,13 @@ See the [S3 API Reference](../reference/s3.md) section for information on suppor
 
 ### OpenAPI Server
 
-The Swagger ([OpenAPI](https://swagger.io/docs/specification/basic-structure/){:target="_blank"}) Server exposes the full set of lakeFS operations (see [Reference](../reference/api.md)). This includes basic CRUD operations against repositories and objects, as well as versioning related operations such as branching, merging, committing and reverting changes to data.
+The Swagger \([OpenAPI](https://swagger.io/docs/specification/basic-structure/){:target="\_blank"}\) Server exposes the full set of lakeFS operations \(see [Reference](../reference/api.md)\). This includes basic CRUD operations against repositories and objects, as well as versioning related operations such as branching, merging, committing and reverting changes to data.
 
 ### S3 Storage Adapter
 
 The S3 Storage Adapter is the component in charge of communication with the underlying S3 bucket. It is logically decoupled from the S3 Gateway to allow for future compatibility with other types of underlying storage such as HDFS or S3-Compatible storage providers.
 
-See the [roadmap](roadmap.md) for information on future plans for storage compatibility. 
+See the [roadmap](roadmap.md) for information on future plans for storage compatibility.
 
 ### Metadata Index
 
@@ -55,12 +60,13 @@ To learn about the data model used to store lakeFS metadata, see the [data model
 
 ### Authentication & Authorization Service
 
-The Auth service handles creation, management and validation of user credentials and [RBAC policies](https://en.wikipedia.org/wiki/Role-based_access_control){:target="_blank"}.
+The Auth service handles creation, management and validation of user credentials and [RBAC policies](https://en.wikipedia.org/wiki/Role-based_access_control){:target="\_blank"}.
 
-The credential scheme, along with the request signing logic are compatible with AWS IAM (both [SIGv2](https://docs.aws.amazon.com/general/latest/gr/signature-version-2.html) and [SIGv4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html)).
+The credential scheme, along with the request signing logic are compatible with AWS IAM \(both [SIGv2](https://docs.aws.amazon.com/general/latest/gr/signature-version-2.html) and [SIGv4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html)\).
 
-Currently, the auth service manages its own database of users and credentials and does not use IAM in any way. 
+Currently, the auth service manages its own database of users and credentials and does not use IAM in any way.
 
 ### Frontend UI
 
 The UI layer is a simple browser-based client that uses the OpenAPI server. It allows management, exploration and data access to repositories, branches, commits and objects in the system.
+

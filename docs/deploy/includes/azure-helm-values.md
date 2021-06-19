@@ -1,3 +1,5 @@
+# azure-helm-values
+
 ```yaml
 secrets:
     # replace this with the connection string of the database you created in a previous step:
@@ -17,3 +19,4 @@ lakefsConfig: |
         # replace this with the host you will use for the lakeFS S3-compatible endpoint:
         domain_name: s3.lakefs.example.com
 ```
+

@@ -1,3 +1,5 @@
+# azure-docker-config
+
 ```yaml
 database:
   connection_string: "postgres://user:pass@<AZURE_POSTGRES_SERVER_NAME>..."
@@ -15,3 +17,4 @@ gateways:
   s3:
     domain_name: s3.lakefs.example.com
 ```
+

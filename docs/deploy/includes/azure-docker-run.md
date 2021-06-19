@@ -1,4 +1,6 @@
-```sh
+# azure-docker-run
+
+```bash
 docker run \
   --name lakefs \
   -p 8000:8000 \
@@ -10,3 +12,4 @@ docker run \
   -e LAKEFS_GATEWAYS_S3_DOMAIN_NAME="[S3_GATEWAY_DOMAIN]" \
   treeverse/lakefs:latest run
 ```
+

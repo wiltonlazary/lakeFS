@@ -1,7 +1,9 @@
 ---
 layout: default
 title: Airflow
-description: Easily build reproducible data pipelines with Airflow and lakeFS using commits, without modifying the code or logic of your job.
+description: >-
+  Easily build reproducible data pipelines with Airflow and lakeFS using
+  commits, without modifying the code or logic of your job.
 parent: Integrations
 nav_order: 55
 has_children: false
@@ -9,14 +11,14 @@ redirect_from: ../using/airflow.html
 ---
 
 # Using lakeFS with Airflow
+
 [Apache Airflow](https://airflow.apache.org/) is a platform to programmatically author, schedule and monitor workflows.
 
 There are some aspects we will need to handle in order to run Airflow with lakeFS:
 
 ## Creating the lakeFS connection
-For authenticating to the lakeFS server, you need to create a new [Airflow Connection](https://airflow.apache.org/docs/apache-airflow/stable/howto/connection.html)
-of type HTTP and pass it to your DAG. You can do that using the Airflow UI or the cli.
-Here’s an example Airflow command that does just that:
+
+For authenticating to the lakeFS server, you need to create a new [Airflow Connection](https://airflow.apache.org/docs/apache-airflow/stable/howto/connection.html) of type HTTP and pass it to your DAG. You can do that using the Airflow UI or the cli. Here’s an example Airflow command that does just that:
 
 ```bash
 airflow connections add conn_lakefs --conn-type=HTTP --conn-host=http://<LAKEFS_ENDPOINT> \
@@ -24,6 +26,7 @@ airflow connections add conn_lakefs --conn-type=HTTP --conn-host=http://<LAKEFS_
 ```
 
 ## Installing lakeFS Airflow package
+
 Installing the package using `pip`:
 
 ```bash
@@ -31,17 +34,18 @@ pip install airflow-provider-lakefs
 ```
 
 ## Using the package
-The package exposes several operations for interacting with a lakeFS server:
-1. `CreateBranchOperator` creates a new lakeFS branch from the source branch (defaults to main).
 
-   ```python
+The package exposes several operations for interacting with a lakeFS server: 1. `CreateBranchOperator` creates a new lakeFS branch from the source branch \(defaults to main\).
+
+```python
    task_create_branch = CreateBranchOperator(
       task_id='create_branch',
       repo='example-repo',
       branch='example-branch',
       source_branch='main'
    )
-   ```
+```
+
 1. `CommitOperator` commits uncommitted changes to a branch.
 
    ```python
@@ -53,7 +57,8 @@ The package exposes several operations for interacting with a lakeFS server:
        metadata={'committed_from": "airflow-operator'}
    )
    ```
-1. `MergeOperator` merges 2 lakeFS branches.
+
+2. `MergeOperator` merges 2 lakeFS branches.
 
    ```python
    task_merge = MergeOperator(
@@ -64,17 +69,17 @@ The package exposes several operations for interacting with a lakeFS server:
      metadata={'committer': 'airflow-operator'}
    )
    ```
-   
-Sensors are also available if you want to synchronize a running DAG with external operations:
-1. `CommitSensor` waits until a commit has been applied to the branch
-   
-   ```python
+
+Sensors are also available if you want to synchronize a running DAG with external operations: 1. `CommitSensor` waits until a commit has been applied to the branch
+
+```python
    task_sense_commit = CommitSensor(
        repo='example-repo',
        branch='example-branch',
        task_id='sense_commit'
    )
-   ```
+```
+
 1. `FileSensor` waits until a given file is present in a branch.
 
    ```python
@@ -86,22 +91,24 @@ Sensors are also available if you want to synchronize a running DAG with externa
    )
    ```
 
-For a DAG example that uses all the above, check out the [example DAG](https://github.com/treeverse/airflow-provider-lakeFS/blob/main/lakefs_provider/example_dags/lakefs-dag.py)
-in the airflow-provider-lakeFS repository.
-
+For a DAG example that uses all the above, check out the [example DAG](https://github.com/treeverse/airflow-provider-lakeFS/blob/main/lakefs_provider/example_dags/lakefs-dag.py) in the airflow-provider-lakeFS repository.
 
 ### Performing other operations
+
 To perform other operations that are not yet supported by the package, you can use:
 
-- SimpleHttpOperator to send [API requests](../reference/api.md) to lakeFS. 
-- BashOperator with [lakeCTL](../quickstart/lakefs_cli.md) commands.
-For example, deleting a branch using BashOperator:
-```bash
-commit_extract = BashOperator(
+* SimpleHttpOperator to send [API requests](../reference/api.md) to lakeFS. 
+* BashOperator with [lakeCTL](../quickstart/lakefs_cli.md) commands.
+
+  For example, deleting a branch using BashOperator:
+
+  ```bash
+  commit_extract = BashOperator(
    task_id='delete_branch',
    bash_command='lakectl branch delete lakefs://example-repo/example-branch',
    dag=dag,
-)
-```
+  )
+  ```
 
-**Note** lakeFS version <= v0.33.1 uses '@' (instead of '/') as separator between repository and branch.
+**Note** lakeFS version &lt;= v0.33.1 uses '@' \(instead of '/'\) as separator between repository and branch.
+

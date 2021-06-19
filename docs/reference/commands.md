@@ -1,27 +1,31 @@
 ---
 layout: default
 title: Command (CLI) Reference
-description: lakeFS comes with its own native CLI client. Here you can see the complete command reference.
+description: >-
+  lakeFS comes with its own native CLI client. Here you can see the complete
+  command reference.
 parent: Reference
 nav_order: 3
 has_children: false
 ---
 
-# Commands (CLI) Reference
-{: .no_toc }
+# Commands \(CLI\) Reference
+
+{: .no\_toc }
 
 ## Table of contents
-{: .no_toc .text-delta }
+
+{: .no\_toc .text-delta }
 
 1. TOC
-{:toc}
+
+   {:toc}
 
 ## Installing the lakectl command locally
 
 `lakectl` is distributed as a single binary, with no external dependencies - and is available for MacOS, Windows and Linux.
 
-[Download lakectl](../index.md#downloads){: .btn .btn-green target="_blank"}
-
+[Download lakectl](../index.md#downloads){: .btn .btn-green target="\_blank"}
 
 ### Configuring credentials and API endpoint
 
@@ -36,9 +40,7 @@ lakectl config
 # Server endpoint URL: http://localhost:8000/api/v1
 ```
 
-This will setup a `$HOME/.lakectl.yaml` file with the credentials and API endpoint you've supplied.
-When setting up a new installation and creating initial credentials (see [Quick start](../quickstart/index.md)), the UI
-will provide a link to download a preconfigured configuration file for you.
+This will setup a `$HOME/.lakectl.yaml` file with the credentials and API endpoint you've supplied. When setting up a new installation and creating initial credentials \(see [Quick start](../quickstart/index.md)\), the UI will provide a link to download a preconfigured configuration file for you.
 
 ### lakectl
 
@@ -52,7 +54,7 @@ lakectl is a CLI tool allowing exploration and manipulation of a lakeFS environm
 
 #### Options
 
-```
+```text
       --base-uri string     base URI used for lakeFS address parse
   -c, --config string       config file (default is $HOME/.lakectl.yaml)
   -h, --help                help for lakectl
@@ -62,34 +64,29 @@ lakectl is a CLI tool allowing exploration and manipulation of a lakeFS environm
       --no-color            don't use fancy output colors (default when not attached to an interactive terminal)
 ```
 
-
-
 ### lakectl abuse
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
-{: .note .note-warning }
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing. {: .note .note-warning }
 
 abuse a running lakeFS instance. See sub commands for more info.
 
 #### Options
 
-```
+```text
   -h, --help   help for abuse
 ```
-
-
 
 ### lakectl abuse create-branches
 
 Create a lot of branches very quickly.
 
-```
+```text
 lakectl abuse create-branches <source ref uri> [flags]
 ```
 
 #### Options
 
-```
+```text
       --amount int             amount of things to do (default 1000000)
       --branch-prefix string   prefix to create branches under (default "abuse-")
       --clean-only             only clean up past runs
@@ -97,66 +94,57 @@ lakectl abuse create-branches <source ref uri> [flags]
       --parallelism int        amount of things to do in parallel (default 100)
 ```
 
-
-
 ### lakectl abuse help
 
 Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type abuse help [path to command] for full details.
+Help provides help for any command in the application. Simply type abuse help \[path to command\] for full details.
 
-```
+```text
 lakectl abuse help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl abuse random-read
 
 Read keys from a file and generate random reads from the source ref for those keys.
 
-```
+```text
 lakectl abuse random-read <source ref uri> [flags]
 ```
 
 #### Options
 
-```
+```text
       --amount int         amount of reads to do (default 1000000)
       --from-file string   read keys from this file ("-" for stdin)
   -h, --help               help for random-read
       --parallelism int    amount of reads to do in parallel (default 100)
 ```
 
-
-
 ### lakectl abuse random-write
 
 Generate random writes to the source branch
 
-```
+```text
 lakectl abuse random-write <source branch uri> [flags]
 ```
 
 #### Options
 
-```
+```text
       --amount int        amount of writes to do (default 1000000)
   -h, --help              help for random-write
       --parallelism int   amount of writes to do in parallel (default 100)
       --prefix string     prefix to create paths under (default "abuse/")
 ```
-
-
 
 ### lakectl actions
 
@@ -164,11 +152,9 @@ Manage Actions commands
 
 #### Options
 
-```
+```text
   -h, --help   help for actions
 ```
-
-
 
 ### lakectl actions help
 
@@ -176,20 +162,17 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type actions help [path to command] for full details.
+Help provides help for any command in the application. Simply type actions help \[path to command\] for full details.
 
-```
+```text
 lakectl actions help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl actions runs
 
@@ -197,11 +180,9 @@ Explore runs information
 
 #### Options
 
-```
+```text
   -h, --help   help for runs
 ```
-
-
 
 ### lakectl actions runs describe
 
@@ -211,25 +192,23 @@ Describe run results
 
 Show information about the run and all the hooks that were executed as part of the run
 
-```
+```text
 lakectl actions runs describe [flags]
 ```
 
 #### Examples
 
-```
+```text
 lakectl actions runs describe lakefs://<repository> <run_id>
 ```
 
 #### Options
 
-```
+```text
       --after string   show results after this value (used for pagination)
       --amount int     number of results to return. By default, all results are returned.
   -h, --help           help for describe
 ```
-
-
 
 ### lakectl actions runs help
 
@@ -237,20 +216,17 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type runs help [path to command] for full details.
+Help provides help for any command in the application. Simply type runs help \[path to command\] for full details.
 
-```
+```text
 lakectl actions runs help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl actions runs list
 
@@ -260,27 +236,25 @@ List runs
 
 List all runs on a repository optional filter by branch or commit
 
-```
+```text
 lakectl actions runs list [flags]
 ```
 
 #### Examples
 
-```
+```text
 lakectl actions runs list lakefs://<repository> [--branch <branch>] [--commit <commit_id>]
 ```
 
 #### Options
 
-```
+```text
       --after string    show results after this value (used for pagination)
       --amount int      number of results to return (default 100)
       --branch string   show results for specific branch
       --commit string   show results for specific commit ID
   -h, --help            help for list
 ```
-
-
 
 ### lakectl actions validate
 
@@ -290,23 +264,21 @@ Validate action file
 
 Tries to parse the input action file as lakeFS action file
 
-```
+```text
 lakectl actions validate [flags]
 ```
 
 #### Examples
 
-```
+```text
 lakectl actions validate <path>
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for validate
 ```
-
-
 
 ### lakectl auth
 
@@ -318,11 +290,9 @@ manage authentication and authorization including users, groups and policies
 
 #### Options
 
-```
+```text
   -h, --help   help for auth
 ```
-
-
 
 ### lakectl auth groups
 
@@ -330,45 +300,39 @@ manage groups
 
 #### Options
 
-```
+```text
   -h, --help   help for groups
 ```
-
-
 
 ### lakectl auth groups create
 
 create a group
 
-```
+```text
 lakectl auth groups create [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help        help for create
       --id string   group identifier
 ```
-
-
 
 ### lakectl auth groups delete
 
 delete a group
 
-```
+```text
 lakectl auth groups delete [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help        help for delete
       --id string   group identifier
 ```
-
-
 
 ### lakectl auth groups help
 
@@ -376,38 +340,33 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type groups help [path to command] for full details.
+Help provides help for any command in the application. Simply type groups help \[path to command\] for full details.
 
-```
+```text
 lakectl auth groups help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl auth groups list
 
 list groups
 
-```
+```text
 lakectl auth groups list [flags]
 ```
 
 #### Options
 
-```
+```text
       --after string   show results after this value (used for pagination)
       --amount int     how many results to return (default 100)
   -h, --help           help for list
 ```
-
-
 
 ### lakectl auth groups members
 
@@ -415,29 +374,25 @@ manage group user memberships
 
 #### Options
 
-```
+```text
   -h, --help   help for members
 ```
-
-
 
 ### lakectl auth groups members add
 
 add a user to a group
 
-```
+```text
 lakectl auth groups members add [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help          help for add
       --id string     group identifier
       --user string   user identifier to add to the group
 ```
-
-
 
 ### lakectl auth groups members help
 
@@ -445,57 +400,50 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type members help [path to command] for full details.
+Help provides help for any command in the application. Simply type members help \[path to command\] for full details.
 
-```
+```text
 lakectl auth groups members help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl auth groups members list
 
 list users in a group
 
-```
+```text
 lakectl auth groups members list [flags]
 ```
 
 #### Options
 
-```
+```text
       --after string   show results after this value (used for pagination)
       --amount int     how many results to return (default 100)
   -h, --help           help for list
       --id string      group identifier
 ```
 
-
-
 ### lakectl auth groups members remove
 
 remove a user from a group
 
-```
+```text
 lakectl auth groups members remove [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help          help for remove
       --id string     group identifier
       --user string   user identifier to add to the group
 ```
-
-
 
 ### lakectl auth groups policies
 
@@ -503,47 +451,41 @@ manage group policies
 
 #### Options
 
-```
+```text
   -h, --help   help for policies
 ```
-
-
 
 ### lakectl auth groups policies attach
 
 attach a policy to a group
 
-```
+```text
 lakectl auth groups policies attach [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help            help for attach
       --id string       user identifier
       --policy string   policy identifier
 ```
 
-
-
 ### lakectl auth groups policies detach
 
 detach a policy from a group
 
-```
+```text
 lakectl auth groups policies detach [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help            help for detach
       --id string       user identifier
       --policy string   policy identifier
 ```
-
-
 
 ### lakectl auth groups policies help
 
@@ -551,39 +493,34 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type policies help [path to command] for full details.
+Help provides help for any command in the application. Simply type policies help \[path to command\] for full details.
 
-```
+```text
 lakectl auth groups policies help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl auth groups policies list
 
 list policies for the given group
 
-```
+```text
 lakectl auth groups policies list [flags]
 ```
 
 #### Options
 
-```
+```text
       --after string   show results after this value (used for pagination)
       --amount int     how many results to return (default 100)
   -h, --help           help for list
       --id string      group identifier
 ```
-
-
 
 ### lakectl auth help
 
@@ -591,20 +528,17 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type auth help [path to command] for full details.
+Help provides help for any command in the application. Simply type auth help \[path to command\] for full details.
 
-```
+```text
 lakectl auth help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl auth policies
 
@@ -612,46 +546,40 @@ manage policies
 
 #### Options
 
-```
+```text
   -h, --help   help for policies
 ```
-
-
 
 ### lakectl auth policies create
 
 create a policy
 
-```
+```text
 lakectl auth policies create [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help                        help for create
       --id string                   policy identifier
       --statement-document string   JSON statement document path (or "-" for stdin)
 ```
 
-
-
 ### lakectl auth policies delete
 
 delete a policy
 
-```
+```text
 lakectl auth policies delete [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help        help for delete
       --id string   policy identifier
 ```
-
-
 
 ### lakectl auth policies help
 
@@ -659,55 +587,48 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type policies help [path to command] for full details.
+Help provides help for any command in the application. Simply type policies help \[path to command\] for full details.
 
-```
+```text
 lakectl auth policies help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl auth policies list
 
 list policies
 
-```
+```text
 lakectl auth policies list [flags]
 ```
 
 #### Options
 
-```
+```text
       --after string   show results after this value (used for pagination)
       --amount int     how many results to return (default 100)
   -h, --help           help for list
 ```
 
-
-
 ### lakectl auth policies show
 
 show a policy
 
-```
+```text
 lakectl auth policies show [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help        help for show
       --id string   policy identifier
 ```
-
-
 
 ### lakectl auth users
 
@@ -715,28 +636,24 @@ manage users
 
 #### Options
 
-```
+```text
   -h, --help   help for users
 ```
-
-
 
 ### lakectl auth users create
 
 create a user
 
-```
+```text
 lakectl auth users create [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help        help for create
       --id string   user identifier
 ```
-
-
 
 ### lakectl auth users credentials
 
@@ -744,46 +661,40 @@ manage user credentials
 
 #### Options
 
-```
+```text
   -h, --help   help for credentials
 ```
-
-
 
 ### lakectl auth users credentials create
 
 create user credentials
 
-```
+```text
 lakectl auth users credentials create [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help        help for create
       --id string   user identifier (default: current user)
 ```
-
-
 
 ### lakectl auth users credentials delete
 
 delete user credentials
 
-```
+```text
 lakectl auth users credentials delete [flags]
 ```
 
 #### Options
 
-```
+```text
       --access-key-id string   access key ID to delete
   -h, --help                   help for delete
       --id string              user identifier (default: current user)
 ```
-
-
 
 ### lakectl auth users credentials help
 
@@ -791,56 +702,49 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type credentials help [path to command] for full details.
+Help provides help for any command in the application. Simply type credentials help \[path to command\] for full details.
 
-```
+```text
 lakectl auth users credentials help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl auth users credentials list
 
 list user credentials
 
-```
+```text
 lakectl auth users credentials list [flags]
 ```
 
 #### Options
 
-```
+```text
       --after string   show results after this value (used for pagination)
       --amount int     how many results to return (default 100)
   -h, --help           help for list
       --id string      user identifier (default: current user)
 ```
 
-
-
 ### lakectl auth users delete
 
 delete a user
 
-```
+```text
 lakectl auth users delete [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help        help for delete
       --id string   user identifier
 ```
-
-
 
 ### lakectl auth users groups
 
@@ -848,11 +752,9 @@ manage user groups
 
 #### Options
 
-```
+```text
   -h, --help   help for groups
 ```
-
-
 
 ### lakectl auth users groups help
 
@@ -860,39 +762,34 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type groups help [path to command] for full details.
+Help provides help for any command in the application. Simply type groups help \[path to command\] for full details.
 
-```
+```text
 lakectl auth users groups help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl auth users groups list
 
 list groups for the given user
 
-```
+```text
 lakectl auth users groups list [flags]
 ```
 
 #### Options
 
-```
+```text
       --after string   show results after this value (used for pagination)
       --amount int     how many results to return (default 100)
   -h, --help           help for list
       --id string      user identifier
 ```
-
-
 
 ### lakectl auth users help
 
@@ -900,38 +797,33 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type users help [path to command] for full details.
+Help provides help for any command in the application. Simply type users help \[path to command\] for full details.
 
-```
+```text
 lakectl auth users help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl auth users list
 
 list users
 
-```
+```text
 lakectl auth users list [flags]
 ```
 
 #### Options
 
-```
+```text
       --after string   show results after this value (used for pagination)
       --amount int     how many results to return (default 100)
   -h, --help           help for list
 ```
-
-
 
 ### lakectl auth users policies
 
@@ -939,47 +831,41 @@ manage user policies
 
 #### Options
 
-```
+```text
   -h, --help   help for policies
 ```
-
-
 
 ### lakectl auth users policies attach
 
 attach a policy to a user
 
-```
+```text
 lakectl auth users policies attach [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help            help for attach
       --id string       user identifier
       --policy string   policy identifier
 ```
 
-
-
 ### lakectl auth users policies detach
 
 detach a policy from a user
 
-```
+```text
 lakectl auth users policies detach [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help            help for detach
       --id string       user identifier
       --policy string   policy identifier
 ```
-
-
 
 ### lakectl auth users policies help
 
@@ -987,40 +873,35 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type policies help [path to command] for full details.
+Help provides help for any command in the application. Simply type policies help \[path to command\] for full details.
 
-```
+```text
 lakectl auth users policies help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl auth users policies list
 
 list policies for the given user
 
-```
+```text
 lakectl auth users policies list [flags]
 ```
 
 #### Options
 
-```
+```text
       --after string   show results after this value (used for pagination)
       --amount int     how many results to return (default 100)
       --effective      list all distinct policies attached to the user, even through group memberships
   -h, --help           help for list
       --id string      user identifier
 ```
-
-
 
 ### lakectl branch
 
@@ -1032,45 +913,39 @@ Create delete and list branches within a lakeFS repository
 
 #### Options
 
-```
+```text
   -h, --help   help for branch
 ```
-
-
 
 ### lakectl branch create
 
 create a new branch in a repository
 
-```
+```text
 lakectl branch create <ref uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help            help for create
   -s, --source string   source branch uri
 ```
 
-
-
 ### lakectl branch delete
 
-delete a branch in a repository, along with its uncommitted changes (CAREFUL)
+delete a branch in a repository, along with its uncommitted changes \(CAREFUL\)
 
-```
+```text
 lakectl branch delete <branch uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for delete
   -y, --yes    Automatically say yes to all confirmations
 ```
-
-
 
 ### lakectl branch help
 
@@ -1078,44 +953,39 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type branch help [path to command] for full details.
+Help provides help for any command in the application. Simply type branch help \[path to command\] for full details.
 
-```
+```text
 lakectl branch help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl branch list
 
 list branches in a repository
 
-```
+```text
 lakectl branch list <repository uri> [flags]
 ```
 
 #### Examples
 
-```
+```text
 lakectl branch list lakefs://<repository>
 ```
 
 #### Options
 
-```
+```text
       --after string   show results after this value (used for pagination)
       --amount int     number of results to return (default 100)
   -h, --help           help for list
 ```
-
-
 
 ### lakectl branch reset
 
@@ -1123,123 +993,106 @@ reset changes to specified commit, or reset uncommitted changes - all changes, o
 
 #### Synopsis
 
-reset changes.  There are four different ways to reset changes:
-  1. reset all uncommitted changes - reset lakefs://myrepo/main 
-  2. reset uncommitted changes under specific path -	reset lakefs://myrepo/main --prefix path
-  3. reset uncommitted changes for specific object - reset lakefs://myrepo/main --object path
+reset changes. There are four different ways to reset changes: 1. reset all uncommitted changes - reset lakefs://myrepo/main 2. reset uncommitted changes under specific path - reset lakefs://myrepo/main --prefix path 3. reset uncommitted changes for specific object - reset lakefs://myrepo/main --object path
 
-```
+```text
 lakectl branch reset <branch uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help            help for reset
       --object string   path to object to be reset
       --prefix string   prefix of the objects to be reset
   -y, --yes             Automatically say yes to all confirmations
 ```
 
-
-
 ### lakectl branch revert
 
 given a commit, record a new commit to reverse the effect of this commit
 
-```
+```text
 lakectl branch revert <branch uri> <commit ref to revert> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help                help for revert
   -m, --parent-number int   the parent number (starting from 1) of the mainline. The revert will reverse the change relative to the specified parent.
   -y, --yes                 Automatically say yes to all confirmations
 ```
 
-
-
 ### lakectl branch show
 
 show branch latest commit reference
 
-```
+```text
 lakectl branch show <branch uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for show
 ```
 
-
-
 ### lakectl cat-hook-output
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
-{: .note .note-warning }
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing. {: .note .note-warning }
 
 Cat actions hook output
 
-```
+```text
 lakectl cat-hook-output [flags]
 ```
 
 #### Examples
 
-```
+```text
 lakectl cat-hook-output lakefs://<repository> <run_id> <run_hook_id>
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for cat-hook-output
 ```
 
-
-
 ### lakectl cat-sst
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
-{: .note .note-warning }
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing. {: .note .note-warning }
 
 Explore lakeFS .sst files
 
-```
+```text
 lakectl cat-sst <sst-file> [flags]
 ```
 
 #### Options
 
-```
+```text
       --amount int    how many records to return, or -1 for all records (default -1)
   -f, --file string   path to an sstable file, or "-" for stdin
   -h, --help          help for cat-sst
 ```
 
-
-
 ### lakectl commit
 
 commit changes on a given branch
 
-```
+```text
 lakectl commit <branch uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help             help for commit
   -m, --message string   commit message
       --meta strings     key value pair in the form of key=value
 ```
-
-
 
 ### lakectl completion
 
@@ -1251,34 +1104,33 @@ To load completions:
 
 Bash:
 
-```sh
+```bash
 $ source <(lakectl completion bash)
 ```
 
-To load completions for each session, execute once:
-Linux:
+To load completions for each session, execute once: Linux:
 
-```sh
+```bash
 $ lakectl completion bash > /etc/bash_completion.d/lakectl
 ```
 
 MacOS:
 
-```sh
+```bash
 $ lakectl completion bash > /usr/local/etc/bash_completion.d/lakectl
 ```
 
 Zsh:
 
-If shell completion is not already enabled in your environment you will need
-to enable it.  You can execute the following once:
+If shell completion is not already enabled in your environment you will need to enable it. You can execute the following once:
 
-```sh
+```bash
 $ echo "autoload -U compinit; compinit" >> ~/.zshrc
 ```
 
 To load completions for each session, execute once:
-```sh
+
+```bash
 $ lakectl completion zsh > "${fpath[1]}/_lakectl"
 ```
 
@@ -1286,45 +1138,39 @@ You will need to start a new shell for this setup to take effect.
 
 Fish:
 
-```sh
+```bash
 $ lakectl completion fish | source
 ```
 
 To load completions for each session, execute once:
 
-```sh
+```bash
 $ lakectl completion fish > ~/.config/fish/completions/lakectl.fish
 ```
 
-
-
-```
+```text
 lakectl completion <bash|zsh|fish>
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for completion
 ```
-
-
 
 ### lakectl config
 
 create/update local lakeFS configuration
 
-```
+```text
 lakectl config [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for config
 ```
-
-
 
 ### lakectl diff
 
@@ -1332,70 +1178,58 @@ diff between commits/hashes
 
 #### Synopsis
 
-see the list of paths added/changed/removed in a branch or between two references (could be either commit hash or branch name)
+see the list of paths added/changed/removed in a branch or between two references \(could be either commit hash or branch name\)
 
-```
+```text
 lakectl diff <ref uri> [other ref uri] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for diff
 ```
 
-
-
 ### lakectl docs
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
-{: .note .note-warning }
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing. {: .note .note-warning }
 
-
-
-```
+```text
 lakectl docs [outfile] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for docs
 ```
 
-
-
 ### lakectl fs
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
-{: .note .note-warning }
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing. {: .note .note-warning }
 
 view and manipulate objects
 
 #### Options
 
-```
+```text
   -h, --help   help for fs
 ```
-
-
 
 ### lakectl fs cat
 
 dump content of object to stdout
 
-```
+```text
 lakectl fs cat <path uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -d, --direct   read directly from backing store (faster but requires more credentials)
   -h, --help     help for cat
 ```
-
-
 
 ### lakectl fs help
 
@@ -1403,68 +1237,60 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type fs help [path to command] for full details.
+Help provides help for any command in the application. Simply type fs help \[path to command\] for full details.
 
-```
+```text
 lakectl fs help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl fs ls
 
 list entries under a given tree
 
-```
+```text
 lakectl fs ls <path uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help        help for ls
       --recursive   list all objects under the specified prefix
 ```
-
-
 
 ### lakectl fs rm
 
 delete object
 
-```
+```text
 lakectl fs rm <path uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for rm
 ```
 
-
-
 ### lakectl fs stage
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
-{: .note .note-warning }
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing. {: .note .note-warning }
 
 stages a reference to an existing object, to be managed in lakeFS
 
-```
+```text
 lakectl fs stage <path uri> [flags]
 ```
 
 #### Options
 
-```
+```text
       --checksum string   Object MD5 checksum as a hexadecimal string
   -h, --help              help for stage
       --location string   fully qualified storage location (i.e. "s3://bucket/path/to/object")
@@ -1473,42 +1299,36 @@ lakectl fs stage <path uri> [flags]
       --size int          Object size in bytes
 ```
 
-
-
 ### lakectl fs stat
 
 view object metadata
 
-```
+```text
 lakectl fs stat <path uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for stat
 ```
-
-
 
 ### lakectl fs upload
 
 upload a local file to the specified URI
 
-```
+```text
 lakectl fs upload <path uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -d, --direct          write directly to backing store (faster but requires more credentials)
   -h, --help            help for upload
   -r, --recursive       recursively copy all files under local source
   -s, --source string   local file to upload, or "-" for stdin
 ```
-
-
 
 ### lakectl help
 
@@ -1516,32 +1336,29 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type lakectl help [path to command] for full details.
+Help provides help for any command in the application. Simply type lakectl help \[path to command\] for full details.
 
-```
+```text
 lakectl help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
 
-
-
 ### lakectl ingest
 
-Ingest objects from an external source into a lakeFS branch (without actually copying them)
+Ingest objects from an external source into a lakeFS branch \(without actually copying them\)
 
-```
+```text
 lakectl ingest --from <object store URI> --to <lakeFS path URI> [--dry-run] [flags]
 ```
 
 #### Options
 
-```
+```text
   -C, --concurrency int   max concurrent API calls to make to the lakeFS server (default 64)
       --dry-run           only print the paths to be ingested
       --from string       prefix to read from (e.g. "s3://bucket/sub/path/")
@@ -1550,26 +1367,22 @@ lakectl ingest --from <object store URI> --to <lakeFS path URI> [--dry-run] [fla
   -v, --verbose           print stats for each individual object staged
 ```
 
-
-
 ### lakectl log
 
 show log of commits for the given branch
 
-```
+```text
 lakectl log <branch uri> [flags]
 ```
 
 #### Options
 
-```
+```text
       --after string         show results after this value (used for pagination)
       --amount int           number of results to return. By default, all results are returned.
   -h, --help                 help for log
       --show-meta-range-id   also show meta range ID
 ```
-
-
 
 ### lakectl merge
 
@@ -1579,17 +1392,15 @@ merge
 
 merge & commit changes from source branch into destination branch
 
-```
+```text
 lakectl merge <source ref> <destination ref> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for merge
 ```
-
-
 
 ### lakectl metastore
 
@@ -1597,11 +1408,9 @@ manage metastore commands
 
 #### Options
 
-```
+```text
   -h, --help   help for metastore
 ```
-
-
 
 ### lakectl metastore copy
 
@@ -1611,13 +1420,13 @@ copy or merge table
 
 copy or merge table. the destination table will point to the selected branch
 
-```
+```text
 lakectl metastore copy [flags]
 ```
 
 #### Options
 
-```
+```text
       --catalog-id string         Glue catalog ID
       --from-client-type string   metastore type [hive, glue]
       --from-schema string        source schema name
@@ -1629,10 +1438,8 @@ lakectl metastore copy [flags]
       --to-branch string          lakeFS branch name
       --to-client-type string     metastore type [hive, glue]
       --to-schema string          destination schema name [default is from-branch]
-      --to-table string           destination table name [default is  from-table] 
+      --to-table string           destination table name [default is  from-table]
 ```
-
-
 
 ### lakectl metastore copy-all
 
@@ -1642,13 +1449,13 @@ copy from one metastore to another
 
 copy or merge requested tables between hive metastores. the destination tables will point to the selected branch
 
-```
+```text
 lakectl metastore copy-all [flags]
 ```
 
 #### Options
 
-```
+```text
       --branch string              lakeFS branch name
       --continue-on-error string   prevent copy-all from failing when a single table fails
       --from-address string        source metastore address
@@ -1660,23 +1467,21 @@ lakectl metastore copy-all [flags]
       --to-client-type string      metastore type [hive, glue]
 ```
 
-
-
 ### lakectl metastore create-symlink
 
 create symlink table and data
 
 #### Synopsis
 
-create table with symlinks, and create the symlinks in s3 in order to access from external services that could only access s3 directly (e.g athena)
+create table with symlinks, and create the symlinks in s3 in order to access from external services that could only access s3 directly \(e.g athena\)
 
-```
+```text
 lakectl metastore create-symlink [flags]
 ```
 
 #### Options
 
-```
+```text
       --branch string        lakeFS branch name
       --catalog-id string    Glue catalog ID
       --from-schema string   source schema name
@@ -1688,19 +1493,17 @@ lakectl metastore create-symlink [flags]
       --to-table string      destination table name
 ```
 
-
-
 ### lakectl metastore diff
 
 show column and partition differences between two tables
 
-```
+```text
 lakectl metastore diff [flags]
 ```
 
 #### Options
 
-```
+```text
       --catalog-id string         Glue catalog ID
       --from-address string       source metastore address
       --from-client-type string   metastore type [hive, glue]
@@ -1714,80 +1517,68 @@ lakectl metastore diff [flags]
       --to-table string           destination table name [default is from-table]
 ```
 
-
-
 ### lakectl metastore help
 
 Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type metastore help [path to command] for full details.
+Help provides help for any command in the application. Simply type metastore help \[path to command\] for full details.
 
-```
+```text
 lakectl metastore help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
 
-
-
 ### lakectl refs-dump
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
-{: .note .note-warning }
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing. {: .note .note-warning }
 
-dumps refs (branches, commits, tags) to the underlying object store
+dumps refs \(branches, commits, tags\) to the underlying object store
 
-```
+```text
 lakectl refs-dump <repository uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for refs-dump
 ```
 
-
-
 ### lakectl refs-restore
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
-{: .note .note-warning }
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing. {: .note .note-warning }
 
-restores refs (branches, commits, tags) from the underlying object store to a bare repository
+restores refs \(branches, commits, tags\) from the underlying object store to a bare repository
 
 #### Synopsis
 
-restores refs (branches, commits, tags) from the underlying object store to a bare repository.
+restores refs \(branches, commits, tags\) from the underlying object store to a bare repository.
 
-This command is expected to run on a bare repository (i.e. one created with 'lakectl repo create-bare').
-Since a bare repo is expected, in case of transient failure, delete the repository and recreate it as bare and retry.
+This command is expected to run on a bare repository \(i.e. one created with 'lakectl repo create-bare'\). Since a bare repo is expected, in case of transient failure, delete the repository and recreate it as bare and retry.
 
-```
+```text
 lakectl refs-restore <repository uri> [flags]
 ```
 
 #### Examples
 
-```
+```text
 aws s3 cp s3://bucket/_lakefs/refs_manifest.json - | lakectl refs-load lakefs://my-bare-repository --manifest -
 ```
 
 #### Options
 
-```
+```text
   -h, --help                 help for refs-restore
       --manifest refs-dump   path to a refs manifest json file (as generated by refs-dump). Alternatively, use "-" to read from stdin
 ```
-
-
 
 ### lakectl repo
 
@@ -1795,65 +1586,56 @@ manage and explore repos
 
 #### Options
 
-```
+```text
   -h, --help   help for repo
 ```
 
-
-
 ### lakectl repo create
 
-create a new repository 
+create a new repository
 
-```
+```text
 lakectl repo create <repository uri> <storage namespace> [flags]
 ```
 
 #### Options
 
-```
+```text
   -d, --default-branch string   the default branch of this repository (default "main")
   -h, --help                    help for create
 ```
 
-
-
 ### lakectl repo create-bare
 
-**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing.
-{: .note .note-warning }
+**note:** This command is a lakeFS plumbing command. Don't use it unless you're really sure you know what you're doing. {: .note .note-warning }
 
 create a new repository with no initial branch or commit
 
-```
+```text
 lakectl repo create-bare <repository uri> <storage namespace> [flags]
 ```
 
 #### Options
 
-```
+```text
   -d, --default-branch string   the default branch name of this repository (will not be created) (default "main")
   -h, --help                    help for create-bare
 ```
-
-
 
 ### lakectl repo delete
 
 delete existing repository
 
-```
+```text
 lakectl repo delete <repository uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for delete
   -y, --yes    Automatically say yes to all confirmations
 ```
-
-
 
 ### lakectl repo help
 
@@ -1861,56 +1643,49 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type repo help [path to command] for full details.
+Help provides help for any command in the application. Simply type repo help \[path to command\] for full details.
 
-```
+```text
 lakectl repo help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl repo list
 
 list repositories
 
-```
+```text
 lakectl repo list [flags]
 ```
 
 #### Options
 
-```
+```text
       --after string   show results after this value (used for pagination)
       --amount int     number of results to return (default 100)
   -h, --help           help for list
 ```
 
-
-
 ### lakectl show
 
-See detailed information about an entity by ID (commit, user, etc)
+See detailed information about an entity by ID \(commit, user, etc\)
 
-```
+```text
 lakectl show <repository uri> [flags]
 ```
 
 #### Options
 
-```
+```text
       --commit string        commit ID to show
   -h, --help                 help for show
       --show-meta-range-id   when showing commits, also show meta range ID
 ```
-
-
 
 ### lakectl tag
 
@@ -1922,44 +1697,38 @@ Create delete and list tags within a lakeFS repository
 
 #### Options
 
-```
+```text
   -h, --help   help for tag
 ```
-
-
 
 ### lakectl tag create
 
 create a new tag in a repository
 
-```
+```text
 lakectl tag create <tag uri> <commit ref> [flags]
 ```
 
 #### Options
 
-```
+```text
   -f, --force   override the tag if it exists
   -h, --help    help for create
 ```
-
-
 
 ### lakectl tag delete
 
 delete a tag from a repository
 
-```
+```text
 lakectl tag delete <tag uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for delete
 ```
-
-
 
 ### lakectl tag help
 
@@ -1967,58 +1736,51 @@ Help about any command
 
 #### Synopsis
 
-Help provides help for any command in the application.
-Simply type tag help [path to command] for full details.
+Help provides help for any command in the application. Simply type tag help \[path to command\] for full details.
 
-```
+```text
 lakectl tag help [command] [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for help
 ```
-
-
 
 ### lakectl tag list
 
 list tags in a repository
 
-```
+```text
 lakectl tag list <repository uri> [flags]
 ```
 
 #### Examples
 
-```
+```text
 lakectl tag list lakefs://<repository>
 ```
 
 #### Options
 
-```
+```text
       --after string   show results after this value (used for pagination)
       --amount int     number of results to return (default 100)
   -h, --help           help for list
 ```
 
-
-
 ### lakectl tag show
 
 show tag's commit reference
 
-```
+```text
 lakectl tag show <tag uri> [flags]
 ```
 
 #### Options
 
-```
+```text
   -h, --help   help for show
 ```
-
-
 
