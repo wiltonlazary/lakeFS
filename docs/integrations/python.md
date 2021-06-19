@@ -1,7 +1,9 @@
 ---
 layout: default
 title: Python
-description: The lakeFS API is OpenAPI 3.0 compliant, allowing the generation of clients from Python and multiple other languages
+description: >-
+  The lakeFS API is OpenAPI 3.0 compliant, allowing the generation of clients
+  from Python and multiple other languages
 parent: Integrations
 nav_order: 30
 has_children: false
@@ -9,30 +11,30 @@ redirect_from: ../using/python.html
 ---
 
 # Calling the lakeFS API from Python
-{: .no_toc }
 
-The [lakeFS API](../reference/api.md){: target="_blank" } is OpenAPI 3.0 compliant, allowing the generation of clients from multiple languages or directly accessed by any HTTP client.
+{: .no\_toc }
 
-For Python, this example uses [lakeFS's python package](https://pypi.org/project/lakefs-client/){: target="_blank" }.
-The lakefs-client pacakge was created by [OpenAPI Generator](https://openapi-generator.tech){: target="_blank" } using our OpenAPI definition served by a lakeFS server.
+The [lakeFS API](../reference/api.md){: target="\_blank" } is OpenAPI 3.0 compliant, allowing the generation of clients from multiple languages or directly accessed by any HTTP client.
+
+For Python, this example uses [lakeFS's python package](https://pypi.org/project/lakefs-client/){: target="\_blank" }. The lakefs-client pacakge was created by [OpenAPI Generator](https://openapi-generator.tech){: target="\_blank" } using our OpenAPI definition served by a lakeFS server.
 
 ## Table of contents
-{: .no_toc .text-delta }
+
+{: .no\_toc .text-delta }
 
 1. TOC
-{:toc}
+
+   {:toc}
 
 ## Install lakeFS Python Client API
 
 Install the Python client using pip:
 
-
-```shell
+```text
 pip install 'lakefs_client==<lakeFS version>'
 ```
 
-The package is available from version >= 0.34.0.
-
+The package is available from version &gt;= 0.34.0.
 
 ## Working with the Client API
 
@@ -50,7 +52,7 @@ configuration.password = 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
 configuration.host = 'http://localhost:8000'
 
 client = LakeFSClient(configuration)
-``` 
+```
 
 ## Using the generated client
 
@@ -141,7 +143,7 @@ client.branches.diff_branch(repository='example-repo', branch='experiment-aggreg
 # []
 ```
 
-### Merging changes from a branch into main 
+### Merging changes from a branch into main
 
 Let's diff between our branch and the main branch:
 
@@ -149,7 +151,6 @@ Let's diff between our branch and the main branch:
 client.refs.diff_refs(repository='example-repo', left_ref='experiment-aggregations1', right_ref='main').results
 # output:
 # [{'path': 'path/to/file.csv', 'path_type': 'object', 'type': 'added'}]
-
 ```
 
 Looks like we have a change. Let's merge it:
@@ -172,3 +173,4 @@ client.refs.diff_refs(repository='example-repo', left_ref='experiment-aggregatio
 ## Full API reference
 
 For a full reference of the lakeFS API, see [lakeFS API](../reference/api.md)
+

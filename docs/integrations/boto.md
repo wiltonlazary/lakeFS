@@ -1,25 +1,31 @@
 ---
 layout: default
 title: Boto (Python)
-description: This section covers how you can start using lakeFS with Boto (Python), the AWS SDK for Python.
+description: >-
+  This section covers how you can start using lakeFS with Boto (Python), the AWS
+  SDK for Python.
 parent: Integrations
 nav_order: 45
 has_children: false
 redirect_from: ../using/boto.html
 ---
 
-# Using lakeFS with Boto (Python)
-{: .no_toc }
+# Using lakeFS with Boto \(Python\)
+
+{: .no\_toc }
 
 ## Table of contents
-{: .no_toc .text-delta }
+
+{: .no\_toc .text-delta }
 
 1. TOC
-{:toc}
+
+   {:toc}
 
 ## Creating a Boto client
 
 Create a Boto3 S3 client with your lakeFS endpoint and key-pair:
+
 ```python
 import boto3
 s3 = boto3.client('s3',
@@ -28,10 +34,10 @@ s3 = boto3.client('s3',
     aws_secret_access_key='wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY')
 ```
 
-
 ## Usage Examples
 
 ### Put Object
+
 Use a branch name and a path to put an object in lakeFS:
 
 ```python
@@ -42,7 +48,7 @@ with open('/local/path/to/file_0', 'rb') as f:
 ### List Objects
 
 List branch objects starting with a prefix:
- 
+
 ```python
 list_resp = s3.list_objects_v2(Bucket='example-repo', Prefix='main/example-prefix')
 for obj in list_resp['Contents']:
@@ -50,7 +56,7 @@ for obj in list_resp['Contents']:
 ```
 
 Or, use a lakeFS commit ID to list objects for a specific commit:
- 
+
 ```python
 list_resp = s3.list_objects_v2(Bucket='example-repo', Prefix='c7a632d74f/example-prefix')
 for obj in list_resp['Contents']:
@@ -58,7 +64,9 @@ for obj in list_resp['Contents']:
 ```
 
 ### Head Object
+
 Get object metadata using branch and path:
+
 ```python
 s3.head_object(Bucket='example-repo', Key='main/example-file.parquet')
 # output:
@@ -77,4 +85,5 @@ s3.head_object(Bucket='example-repo', Key='main/example-file.parquet')
 # 'ContentLength': 1024,
 # 'ETag': '"2398bc5880e535c61f7624ad6f138d62"',
 # 'Metadata': {}}
-``` 
+```
+
