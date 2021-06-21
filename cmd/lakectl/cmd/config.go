@@ -9,7 +9,18 @@ import (
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/treeverse/lakefs/cmd/lakectl/cmd/config"
+)
+
+const (
+	// Default flag keys
+	HiveDBLocationURIKey = "metastore.hive.db_location_uri"
+
+	// Defaults
+	HiveDBLocationURI        = "file:/user/hive/warehouse/"
+	ConfigServerEndpointURL  = "server.endpoint_url"
+	DefaultServerEndpointURL = "http://127.0.0.1:8000"
+	ConfigAccessKeyID        = "credentials.access_key_id"
+	ConfigSecretAccessKey    = "credentials.secret_access_key"
 )
 
 // configCmd represents the config command
@@ -33,9 +44,9 @@ var configCmd = &cobra.Command{
 			Key    string
 			Prompt *promptui.Prompt
 		}{
-			{Key: config.ConfigAccessKeyID, Prompt: &promptui.Prompt{Label: "Access key ID"}},
-			{Key: config.ConfigSecretAccessKey, Prompt: &promptui.Prompt{Label: "Secret access key"}},
-			{Key: config.ConfigServerEndpointURL, Prompt: &promptui.Prompt{Label: "Server endpoint URL", Validate: func(rawurl string) error {
+			{Key: ConfigAccessKeyID, Prompt: &promptui.Prompt{Label: "Access key ID"}},
+			{Key: ConfigSecretAccessKey, Prompt: &promptui.Prompt{Label: "Secret access key"}},
+			{Key: ConfigServerEndpointURL, Prompt: &promptui.Prompt{Label: "Server endpoint URL", Validate: func(rawurl string) error {
 				_, err := url.ParseRequestURI(rawurl)
 				return err
 			}}},

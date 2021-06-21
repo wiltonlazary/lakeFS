@@ -7,14 +7,15 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"reflect"
 	"strings"
 
 	"github.com/deepmap/oapi-codegen/pkg/securityprovider"
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/treeverse/lakefs/cmd/lakectl/cmd/config"
 	"github.com/treeverse/lakefs/pkg/api"
+	"github.com/treeverse/lakefs/pkg/config"
 	"github.com/treeverse/lakefs/pkg/logging"
 	"github.com/treeverse/lakefs/pkg/version"
 )
@@ -25,7 +26,8 @@ const (
 
 var (
 	cfgFile string
-	cfg     *config.Config
+	cfg     *configuration
+	cfgErr  error
 
 	// baseURI default value is set by the environment variable LAKECTL_BASE_URI and
 	// override by flag 'base-url'. The baseURI is used as a prefix when we parse lakefs address (repo, ref or path).
@@ -60,17 +62,20 @@ lakectl is a CLI tool allowing exploration and manipulation of a lakeFS environm
 		if cmd == configCmd {
 			return
 		}
-
-		if errors.As(cfg.Err(), &viper.ConfigFileNotFoundError{}) {
+		if errors.As(cfgErr, &viper.ConfigFileNotFoundError{}) {
 			if cfgFile == "" {
 				// if the config file wasn't provided, try to run using the default values + env vars
 				return
 			}
 			// specific message in case the file isn't found
-			DieFmt("config file not found, please run \"lakectl config\" to create one\n%s\n", cfg.Err())
-		} else if cfg.Err() != nil {
+			DieFmt("config file not found, please run \"lakectl config\" to create one\n%s\n", cfgErr)
+		} else if cfgErr != nil {
 			// other errors while reading the config file
-			DieFmt("error reading configuration file: %v", cfg.Err())
+			DieFmt("error reading configuration file: %v", cfgErr)
+		}
+
+		if err := viper.UnmarshalExact(&cfg); err != nil {
+			DieFmt("error unmarshal configuration: %v", err)
 		}
 	},
 	Version: version.Version,
@@ -84,14 +89,14 @@ func getClient() api.ClientWithResponsesInterface {
 	transport := http.DefaultTransport.(*http.Transport).Clone()
 	transport.MaxIdleConnsPerHost = DefaultMaxIdleConnsPerHost
 
-	accessKeyID := cfg.Values.Credentials.AccessKeyID
-	secretAccessKey := cfg.Values.Credentials.SecretAccessKey
+	accessKeyID := cfg.Credentials.AccessKeyID
+	secretAccessKey := cfg.Credentials.SecretAccessKey
 	basicAuthProvider, err := securityprovider.NewSecurityProviderBasicAuth(accessKeyID, secretAccessKey)
 	if err != nil {
 		DieErr(err)
 	}
 
-	serverEndpoint := cfg.Values.Server.EndpointURL
+	serverEndpoint := cfg.Server.EndpointURL
 	u, err := url.Parse(serverEndpoint)
 	if err != nil {
 		DieErr(err)
@@ -165,5 +170,22 @@ func initConfig() {
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_")) // support nested config
 	viper.AutomaticEnv()                                   // read in environment variables that match
 
-	cfg = config.ReadConfig()
+	// Inform viper of all expected fields.  Otherwise it fails to deserialize from the
+	// environment.
+	keys := config.GetStructKeys(reflect.TypeOf(cfg), "mapstructure", "squash")
+	for _, key := range keys {
+		viper.SetDefault(key, nil)
+	}
+
+	// set defaults
+	viper.SetDefault(HiveDBLocationURIKey, HiveDBLocationURI)
+	viper.SetDefault(ConfigServerEndpointURL, DefaultServerEndpointURL)
+
+	cfgErr = viper.ReadInConfig()
+	logger := logging.Default().WithField("file", viper.ConfigFileUsed())
+	if cfgErr == nil {
+		logger.Info("loaded configuration from file")
+	} else if _, ok := cfgErr.(viper.ConfigFileNotFoundError); !ok {
+		logger.WithError(cfgErr).Fatal("failed to read config file")
+	}
 }
