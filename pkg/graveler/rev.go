@@ -1,17 +1,21 @@
-package ref
+package graveler
 
 import (
 	"fmt"
 	"regexp"
 	"strconv"
-
-	"github.com/treeverse/lakefs/pkg/graveler"
 )
 
-var (
-	hashRegexp      = regexp.MustCompile("^[a-fA-F0-9]{1,64}$")
-	modifiersRegexp = regexp.MustCompile("(^|[~^])[^^~]*")
-)
+type ParsedRev struct {
+	BaseRev          string
+	Modifiers        []RevModifier
+	IsFullyQualified bool
+}
+
+type RevModifier struct {
+	Type  RevModType
+	Value int
+}
 
 type RevModType uint8
 
@@ -20,19 +24,7 @@ const (
 	RevModTypeCaret
 )
 
-func isAHash(part string) bool {
-	return hashRegexp.MatchString(part)
-}
-
-type ParsedRev struct {
-	BaseRev   string
-	Modifiers []RevModifier
-}
-
-type RevModifier struct {
-	Type  RevModType
-	Value int
-}
+var modifiersRegexp = regexp.MustCompile("(^|[~^])[^^~]*")
 
 func parseMod(buf string) (RevModifier, error) {
 	amount := 1
@@ -40,7 +32,7 @@ func parseMod(buf string) (RevModifier, error) {
 	if len(buf) > 1 {
 		amount, err = strconv.Atoi(buf[1:])
 		if err != nil {
-			return RevModifier{}, fmt.Errorf("could not parse modifier %s: %w", buf, graveler.ErrInvalidRef)
+			return RevModifier{}, fmt.Errorf("could not parse modifier %s: %w", buf, ErrInvalidRef)
 		}
 	}
 	var typ RevModType
@@ -50,7 +42,7 @@ func parseMod(buf string) (RevModifier, error) {
 	case '^':
 		typ = RevModTypeCaret
 	default:
-		return RevModifier{}, graveler.ErrInvalidRef
+		return RevModifier{}, ErrInvalidRef
 	}
 
 	return RevModifier{
@@ -59,10 +51,10 @@ func parseMod(buf string) (RevModifier, error) {
 	}, nil
 }
 
-func RevParse(r graveler.Ref) (ParsedRev, error) {
+func RevParse(r Ref) (ParsedRev, error) {
 	parts := modifiersRegexp.FindAllString(string(r), -1)
 	if len(parts) == 0 || len(parts[0]) == 0 {
-		return ParsedRev{}, graveler.ErrInvalidRef
+		return ParsedRev{}, ErrInvalidRef
 	}
 	baseRev := parts[0]
 	mods := make([]RevModifier, 0, len(parts)-1)

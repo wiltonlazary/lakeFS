@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/ory/dockertest/v3"
-
 	"github.com/treeverse/lakefs/pkg/batch"
 	"github.com/treeverse/lakefs/pkg/db"
 	"github.com/treeverse/lakefs/pkg/graveler/ref"

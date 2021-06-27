@@ -1,36 +1,33 @@
-package ref_test
+package graveler
 
 import (
 	"errors"
 	"testing"
-
-	"github.com/treeverse/lakefs/pkg/graveler"
-	"github.com/treeverse/lakefs/pkg/graveler/ref"
 )
 
 func TestRevParse(t *testing.T) {
 	table := []struct {
 		Name        string
 		Input       string
-		Expected    ref.ParsedRev
+		Expected    ParsedRev
 		ExpectedErr error
 	}{
 		{
 			Name:  "just_branch",
 			Input: "main",
-			Expected: ref.ParsedRev{
+			Expected: ParsedRev{
 				BaseRev:   "main",
-				Modifiers: make([]ref.RevModifier, 0),
+				Modifiers: make([]RevModifier, 0),
 			},
 		},
 		{
 			Name:  "branch_one_caret",
 			Input: "main^",
-			Expected: ref.ParsedRev{
+			Expected: ParsedRev{
 				BaseRev: "main",
-				Modifiers: []ref.RevModifier{
+				Modifiers: []RevModifier{
 					{
-						Type:  ref.RevModTypeCaret,
+						Type:  RevModTypeCaret,
 						Value: 1,
 					},
 				},
@@ -39,15 +36,15 @@ func TestRevParse(t *testing.T) {
 		{
 			Name:  "branch_two_caret",
 			Input: "main^^",
-			Expected: ref.ParsedRev{
+			Expected: ParsedRev{
 				BaseRev: "main",
-				Modifiers: []ref.RevModifier{
+				Modifiers: []RevModifier{
 					{
-						Type:  ref.RevModTypeCaret,
+						Type:  RevModTypeCaret,
 						Value: 1,
 					},
 					{
-						Type:  ref.RevModTypeCaret,
+						Type:  RevModTypeCaret,
 						Value: 1,
 					},
 				},
@@ -56,15 +53,15 @@ func TestRevParse(t *testing.T) {
 		{
 			Name:  "branch_two_caret_one_qualified",
 			Input: "main^2^",
-			Expected: ref.ParsedRev{
+			Expected: ParsedRev{
 				BaseRev: "main",
-				Modifiers: []ref.RevModifier{
+				Modifiers: []RevModifier{
 					{
-						Type:  ref.RevModTypeCaret,
+						Type:  RevModTypeCaret,
 						Value: 2,
 					},
 					{
-						Type:  ref.RevModTypeCaret,
+						Type:  RevModTypeCaret,
 						Value: 1,
 					},
 				},
@@ -73,19 +70,19 @@ func TestRevParse(t *testing.T) {
 		{
 			Name:  "branch_tilde_caret_tilde",
 			Input: "main~^~3",
-			Expected: ref.ParsedRev{
+			Expected: ParsedRev{
 				BaseRev: "main",
-				Modifiers: []ref.RevModifier{
+				Modifiers: []RevModifier{
 					{
-						Type:  ref.RevModTypeTilde,
+						Type:  RevModTypeTilde,
 						Value: 1,
 					},
 					{
-						Type:  ref.RevModTypeCaret,
+						Type:  RevModTypeCaret,
 						Value: 1,
 					},
 					{
-						Type:  ref.RevModTypeTilde,
+						Type:  RevModTypeTilde,
 						Value: 3,
 					},
 				},
@@ -94,18 +91,18 @@ func TestRevParse(t *testing.T) {
 		{
 			Name:        "no_base",
 			Input:       "^^^3",
-			ExpectedErr: graveler.ErrInvalidRef,
+			ExpectedErr: ErrInvalidRef,
 		},
 		{
 			Name:        "non_numeric_qualifier",
 			Input:       "main^a",
-			ExpectedErr: graveler.ErrInvalidRef,
+			ExpectedErr: ErrInvalidRef,
 		},
 	}
 
 	for _, cas := range table {
 		t.Run(cas.Name, func(t *testing.T) {
-			got, err := ref.RevParse(graveler.Ref(cas.Input))
+			got, err := RevParse(Ref(cas.Input))
 			if cas.ExpectedErr != nil {
 				if !errors.Is(err, cas.ExpectedErr) {
 					t.Fatalf("expected error of type: %s, got %v", cas.ExpectedErr, err)

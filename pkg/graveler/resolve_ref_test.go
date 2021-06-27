@@ -1,4 +1,4 @@
-package ref_test
+package graveler
 
 import (
 	"context"
@@ -7,31 +7,34 @@ import (
 	"time"
 
 	"github.com/go-test/deep"
-	"github.com/treeverse/lakefs/pkg/graveler"
+	"github.com/treeverse/lakefs/graveler"
+	"github.com/treeverse/lakefs/pkg/batch"
 	"github.com/treeverse/lakefs/pkg/graveler/ref"
 	"github.com/treeverse/lakefs/pkg/ident"
 	"github.com/treeverse/lakefs/pkg/testutil"
 )
 
 func TestResolveRef_Dereference(t *testing.T) {
-	r := testRefManager(t)
+	conn, _ := testutil.GetDB(t, databaseURI, testutil.WithGetDBApplyDDL(true))
+	r := ref.NewPGRefManager(batch.NopExecutor(), conn, ident.NewHexAddressProvider())
+
 	ctx := context.Background()
-	testutil.Must(t, r.CreateRepository(ctx, "repo1", graveler.Repository{
+	testutil.Must(t, r.CreateRepository(ctx, "repo1", Repository{
 		StorageNamespace: "s3://",
 		CreationDate:     time.Now(),
 		DefaultBranchID:  "main",
 	}, ""))
 
 	ts, _ := time.Parse(time.RFC3339, "2020-12-01T15:00:00Z")
-	var previous graveler.CommitID
+	var previous CommitID
 	for i := 0; i < 20; i++ {
-		c := graveler.Commit{
+		c := Commit{
 			Committer:    "user1",
 			Message:      "message1",
 			MetaRangeID:  "deadbeef123",
 			CreationDate: ts,
-			Parents:      graveler.CommitParents{},
-			Metadata:     graveler.Metadata{"foo": "bar"},
+			Parents:      CommitParents{},
+			Metadata:     Metadata{"foo": "bar"},
 		}
 		if previous != "" {
 			c.Parents = append(c.Parents, previous)
@@ -49,7 +52,7 @@ func TestResolveRef_Dereference(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 
-	var commitIDs []graveler.CommitID
+	var commitIDs []CommitID
 	for iter.Next() {
 		commit := iter.Value()
 		if commit == nil {
@@ -61,7 +64,7 @@ func TestResolveRef_Dereference(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	//  commit log:
-	commitLog := []graveler.CommitID{
+	commitLog := []CommitID{
 		"6ededfa12763c5eeb6ce48e5d5d505c33383e4a7e599f55764c0753cb196e244",
 		"a8fcc52c74a09642e0f3ec5997f49ce4f7c73d6c74c03c13143b7fe19a3f156b",
 		"1e471f2170d8f99e093186f7e9195ec340d5f4560df234dd1201dd749fd71f8f",
@@ -89,12 +92,12 @@ func TestResolveRef_Dereference(t *testing.T) {
 	}
 
 	branch1CommitID := commitLog[3]
-	testutil.Must(t, r.SetBranch(ctx, "repo1", "branch1", graveler.Branch{
+	testutil.Must(t, r.SetBranch(ctx, "repo1", "branch1", Branch{
 		CommitID: branch1CommitID,
 	}))
 
 	branch2CommitID := commitLog[16]
-	testutil.Must(t, r.SetBranch(ctx, "repo1", "branch2", graveler.Branch{
+	testutil.Must(t, r.SetBranch(ctx, "repo1", "branch2", Branch{
 		CommitID: branch2CommitID,
 	}))
 
@@ -105,75 +108,75 @@ func TestResolveRef_Dereference(t *testing.T) {
 
 	table := []struct {
 		Name        string
-		Ref         graveler.Ref
-		Expected    graveler.CommitID
+		Ref         Ref
+		Expected    CommitID
 		ExpectedErr error
 	}{
 		{
 			Name:     "branch_exist",
-			Ref:      graveler.Ref("branch1"),
+			Ref:      Ref("branch1"),
 			Expected: branch1CommitID,
 		},
 		{
 			Name:        "branch_doesnt_exist",
-			Ref:         graveler.Ref("branch3"),
-			ExpectedErr: graveler.ErrNotFound,
+			Ref:         Ref("branch3"),
+			ExpectedErr: ErrNotFound,
 		},
 		{
 			Name:     "tag_exist",
-			Ref:      graveler.Ref("v1.0"),
+			Ref:      Ref("v1.0"),
 			Expected: tagCommitID,
 		},
 		{
 			Name:        "tag_doesnt_exist",
-			Ref:         graveler.Ref("v1.bad"),
-			ExpectedErr: graveler.ErrNotFound,
+			Ref:         Ref("v1.bad"),
+			ExpectedErr: ErrNotFound,
 		},
 		{
 			Name:     "commit",
-			Ref:      graveler.Ref(commitCommitID),
-			Expected: graveler.CommitID(commitCommitID),
+			Ref:      Ref(commitCommitID),
+			Expected: CommitID(commitCommitID),
 		},
 		{
 			Name:     "commit_prefix_good",
-			Ref:      graveler.Ref(commitCommitID[:5]),
-			Expected: graveler.CommitID(commitCommitID),
+			Ref:      Ref(commitCommitID[:5]),
+			Expected: CommitID(commitCommitID),
 		},
 		{
 			Name:        "commit_prefix_ambiguous",
-			Ref:         graveler.Ref("a"),
-			ExpectedErr: graveler.ErrNotFound,
+			Ref:         Ref("a"),
+			ExpectedErr: ErrNotFound,
 		},
 		{
 			Name:        "commit_prefix_missing",
-			Ref:         graveler.Ref("66666"),
-			ExpectedErr: graveler.ErrNotFound,
+			Ref:         Ref("66666"),
+			ExpectedErr: ErrNotFound,
 		},
 		{
 			Name:     "branch_with_modifier",
-			Ref:      graveler.Ref(branch1CommitID + "~2"),
+			Ref:      Ref(branch1CommitID + "~2"),
 			Expected: commitLog[5],
 		},
 		{
 			Name:     "commit_with_modifier",
-			Ref:      graveler.Ref(commitCommitID + "~2"),
-			Expected: graveler.CommitID(commitLog[13]),
+			Ref:      Ref(commitCommitID + "~2"),
+			Expected: CommitID(commitLog[13]),
 		},
 		{
 			Name:     "commit_prefix_with_modifier",
-			Ref:      graveler.Ref(commitCommitID[:5] + "~2"),
-			Expected: graveler.CommitID(commitLog[13]),
+			Ref:      Ref(commitCommitID[:5] + "~2"),
+			Expected: CommitID(commitLog[13]),
 		},
 		{
 			Name:        "commit_prefix_with_modifier_too_big",
-			Ref:         graveler.Ref(commitCommitID + "~200"),
-			ExpectedErr: graveler.ErrNotFound,
+			Ref:         Ref(commitCommitID + "~200"),
+			ExpectedErr: ErrNotFound,
 		},
 	}
 
 	for _, cas := range table {
 		t.Run(cas.Name, func(t *testing.T) {
-			ref, err := r.RevParse(ctx, "repo1", cas.Ref)
+			parsed, err := (cas.Ref)
 			if err != nil {
 				if cas.ExpectedErr == nil || !errors.Is(err, cas.ExpectedErr) {
 					t.Fatalf("unexpected error: %v", err)
@@ -188,22 +191,22 @@ func TestResolveRef_Dereference(t *testing.T) {
 }
 
 func TestResolveRef_SameDate(t *testing.T) {
-	r := testRefManager(t)
+	r := ref.testRefManager(t)
 	ctx := context.Background()
-	testutil.Must(t, r.CreateRepository(ctx, "repo1", graveler.Repository{
+	testutil.Must(t, r.CreateRepository(ctx, "repo1", Repository{
 		StorageNamespace: "s3://",
 		CreationDate:     time.Now(),
 		DefaultBranchID:  "main",
 	}, ""))
 
 	ts, _ := time.Parse(time.RFC3339, "2020-12-01T15:00:00Z")
-	addCommit := func(message string, parents ...graveler.CommitID) graveler.CommitID {
-		c := graveler.Commit{
+	addCommit := func(message string, parents ...CommitID) CommitID {
+		c := Commit{
 			Message:      message,
 			Committer:    "tester",
 			MetaRangeID:  "deadbeef1",
 			CreationDate: ts,
-			Parents:      graveler.CommitParents{},
+			Parents:      CommitParents{},
 		}
 		for _, p := range parents {
 			c.Parents = append(c.Parents, p)
@@ -220,14 +223,14 @@ func TestResolveRef_SameDate(t *testing.T) {
 
 	it, err := r.Log(ctx, "repo1", c5)
 	testutil.MustDo(t, "Log request", err)
-	var commitIDs []graveler.CommitID
+	var commitIDs []CommitID
 	for it.Next() {
 		commit := it.Value()
 		commitIDs = append(commitIDs, commit.CommitID)
 	}
 	testutil.MustDo(t, "Log complete iteration", it.Err())
 
-	expected := []graveler.CommitID{c5, c4, c3, c2, c1}
+	expected := []CommitID{c5, c4, c3, c2, c1}
 	if diff := deep.Equal(commitIDs, expected); diff != nil {
 		t.Fatal("Iterator over commits found diff:", diff)
 	}
@@ -259,16 +262,16 @@ func TestResolveRef_DereferenceWithGraph(t *testing.T) {
 		           I = F^   = B^3^    = A^^3^
 		           J = F^2  = B^3^2   = A^^3^2
 	*/
-	r := testRefManager(t)
-	testutil.Must(t, r.CreateRepository(context.Background(), "repo1", graveler.Repository{
+	r := ref.testRefManager(t)
+	testutil.Must(t, r.CreateRepository(context.Background(), "repo1", Repository{
 		StorageNamespace: "s3://",
 		CreationDate:     time.Now(),
 		DefaultBranchID:  "main",
 	}, ""))
 
 	ts, _ := time.Parse(time.RFC3339, "2020-12-01T15:00:00Z")
-	addCommit := func(parents ...graveler.CommitID) graveler.CommitID {
-		commit := graveler.Commit{
+	addCommit := func(parents ...CommitID) CommitID {
+		commit := Commit{
 			CreationDate: ts,
 		}
 		for _, p := range parents {
@@ -291,10 +294,10 @@ func TestResolveRef_DereferenceWithGraph(t *testing.T) {
 	C := addCommit(F)
 	A := addCommit(B, C)
 
-	resolve := func(base graveler.CommitID, mod string, expected graveler.CommitID) {
+	resolve := func(base CommitID, mod string, expected CommitID) {
 		t.Helper()
 		reference := string(base) + mod
-		resolved, err := ref.ResolveRef(context.Background(), r, ident.NewHexAddressProvider(), "repo1", graveler.Ref(reference))
+		resolved, err := graveler.ResolveRef(context.Background(), r, ident.NewHexAddressProvider(), "repo1", Ref(reference))
 		//resolved, err := r.RevParse(context.Background(), "repo1", graveler.Ref(ref))
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)

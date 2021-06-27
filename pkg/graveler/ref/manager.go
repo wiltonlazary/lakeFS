@@ -142,8 +142,12 @@ func (m *Manager) DeleteRepository(ctx context.Context, repositoryID graveler.Re
 	return err
 }
 
-func (m *Manager) RevParse(ctx context.Context, repositoryID graveler.RepositoryID, ref graveler.Ref) (graveler.Reference, error) {
-	return ResolveRef(ctx, m, m.addressProvider, repositoryID, ref)
+func (m *Manager) ResolveRef(ctx context.Context, repositoryID graveler.RepositoryID, rev graveler.ParsedRev) (*graveler.ResolvedRef, error) {
+	return graveler.ResolveRef(ctx, m, m.addressProvider, repositoryID, rev)
+}
+
+func (m *Manager) RevParse(ref graveler.Ref) (graveler.ParsedRev, error) {
+	return graveler.RevParse(ref)
 }
 
 func (m *Manager) GetBranch(ctx context.Context, repositoryID graveler.RepositoryID, branchID graveler.BranchID) (*graveler.Branch, error) {
