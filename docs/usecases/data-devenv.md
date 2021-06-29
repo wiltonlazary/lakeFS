@@ -37,7 +37,9 @@ lakectl branch reset lakefs://example-repo/testing-spark-3
 # are you sure you want to reset all uncommitted changes?: y█
 ```
 
+{% hint style="info" %}
 **Note** lakeFS version <= v0.33.1 uses '@' (instead of '/') as separator between repository and branch.
+{% endhint %}
 
 ### Example 2: Compare - Which option is better?
 
@@ -62,7 +64,7 @@ val dfExperiment2 = sc.read.parquet("s3a://example-repo/experiment-2/events/by-d
 
 dfExperiment1.groupBy("...").count()
 dfExperiment2.groupBy("...").count() // now we can compare the properties of the data itself
-   ```
+```
 
 ### Example 3: Reproduce - A bug in production
 

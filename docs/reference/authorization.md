@@ -94,9 +94,6 @@ This allows us to create fine-grained policies affecting only a specific subset 
 See below for a full reference of ARNs and actions
 
 
-
-
-
 ### Actions and Permissions
 
 For the full list of actions and their required permissions see the following table:

@@ -1,6 +1,7 @@
 ---
 description: This page provides a detailed sizing guide for deploying lakeFS
 ---
+
 # Sizing guide
 
 ## System Requirements
