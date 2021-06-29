@@ -79,6 +79,8 @@
 
 * [FAQ](faq.md)
 
+---
+
 * [Terms of use](https://lakefs.io/terms-of-use/)
 
 * [Privacy Policy](https://lakefs.io/privacy-policy/)
