@@ -12,11 +12,11 @@ Once we have a repository created, we can start [copying and modifying objects](
 
 1. Open [http://127.0.0.1:8000/setup](http://127.0.0.1:8000/setup) in your web browser to set up an initial admin user, used to login and send API requests.
 
-   ![Setup](../assets/img/setup.png)
+![Setup](../assets/img/setup.png)
 
 1. Follow the steps to create an initial administrator user. Save the credentials you've received somewhere safe, you won't be able to see them again!
 
-   ![Setup Done](../assets/img/setup_done.png)
+   <img src="../assets/img/setup_done.png" alt="Setup Done" />
 
 1. Follow the link and go to the login screen
 
