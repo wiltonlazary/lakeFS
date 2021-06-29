@@ -9,8 +9,7 @@ description: Accessing data in lakeFS from Apache Spark is the same as accessing
 {% hint style="info" %}
 **Note** In all following examples we set AWS and lakeFS credentials at runtime, for
 clarity. In production, properties defining AWS credentials should be set using one of
-Hadoop's standard ways of [authenticating with
-S3](https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/index.html#Authenticating_with_S3).
+Hadoop's standard ways of [authenticating with S3](https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/index.html#Authenticating_with_S3).
 Similarly, properties defining lakeFS credentials should be configured in secure site files,
 not on the command line or inlined in code where they might be exposed.
 {% endhint %}
@@ -27,7 +26,6 @@ lakeFS support in Spark has two tiers:
 Using the S3A gateway is easier to configure and may be more suitable for legacy or
 small-scale applications.  Using the lakeFS FileSystem requires somewhat more complex
 configuration, but offers greatly increased performance.
-
 
 
 ## Access lakeFS using the S3A gateway
@@ -59,8 +57,8 @@ Here is how to do it:
 {% tab title="CLI" %}
 ```shell
 spark-shell --conf spark.hadoop.fs.s3a.access.key='AKIAlakefs12345EXAMPLE' \
-              --conf spark.hadoop.fs.s3a.secret.key='abc/lakefs/1234567bPxRfiCYEXAMPLEKEY' \
-              --conf spark.hadoop.fs.s3a.endpoint='https://s3.lakefs.example.com' ...
+            --conf spark.hadoop.fs.s3a.secret.key='abc/lakefs/1234567bPxRfiCYEXAMPLEKEY' \
+            --conf spark.hadoop.fs.s3a.endpoint='https://s3.lakefs.example.com' ...
 ```
 {% endtab %}
 
@@ -104,8 +102,8 @@ For example, to configure only `example-repo` to use lakeFS, set the following c
 {% tab title="CLI" %}
 ```sh
 spark-shell --conf spark.hadoop.fs.s3a.bucket.example-repo.access.key='AKIAlakefs12345EXAMPLE' \
-              --conf spark.hadoop.fs.s3a.bucket.example-repo.secret.key='abc/lakefs/1234567bPxRfiCYEXAMPLEKEY' \
-              --conf spark.hadoop.fs.s3a.bucket.example-repo.endpoint='https://s3.lakefs.example.com'
+            --conf spark.hadoop.fs.s3a.bucket.example-repo.secret.key='abc/lakefs/1234567bPxRfiCYEXAMPLEKEY' \
+            --conf spark.hadoop.fs.s3a.bucket.example-repo.endpoint='https://s3.lakefs.example.com'
 ```
 {% endtab %}
 
@@ -224,8 +222,7 @@ point at the underlying storage.
 | `fs.lakefs.endpoint`   | Set to the lakeFS API URL             |
 
 When using AWS S3 itself, the default configuration works with us-east-1, so you may still
-need to configure `fs.s3a.endpoint`.  Amazon provides these [S3
-endpoints](https://docs.aws.amazon.com/general/latest/gr/s3.html) you can use.
+need to configure `fs.s3a.endpoint`.  Amazon provides these [S3 endpoints](https://docs.aws.amazon.com/general/latest/gr/s3.html) you can use.
 
 {% hint style="info" %}
 **Note:** If not running on AWS, all s3a configuration properties are required!  Unlike when
@@ -240,14 +237,14 @@ Here is how to do it:
 {% tab title="CLI" %}
 ```shell
 spark-shell --conf spark.hadoop.fs.s3a.access.key='AKIAIOSFODNN7EXAMPLE' \
-              --conf spark.hadoop.fs.s3a.secret.key='wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY' \
-              --conf spark.hadoop.fs.s3a.endpoint='https://s3.eu-central-1.amazonaws.com' \
-              --conf spark.hadoop.fs.lakefs.impl=io.lakefs.LakeFSFileSystem \
-              --conf spark.hadoop.fs.lakefs.access.key=AKIAlakefs12345EXAMPLE \
-              --conf spark.hadoop.fs.lakefs.secret.key=abc/lakefs/1234567bPxRfiCYEXAMPLEKEY \
-              --conf spark.hadoop.fs.lakefs.endpoint=https://lakefs.example.com/api/v1/ \
-              --packages io.lakefs:lakefsfs:0.45.56
-              ...
+            --conf spark.hadoop.fs.s3a.secret.key='wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY' \
+            --conf spark.hadoop.fs.s3a.endpoint='https://s3.eu-central-1.amazonaws.com' \
+            --conf spark.hadoop.fs.lakefs.impl=io.lakefs.LakeFSFileSystem \
+            --conf spark.hadoop.fs.lakefs.access.key=AKIAlakefs12345EXAMPLE \
+            --conf spark.hadoop.fs.lakefs.secret.key=abc/lakefs/1234567bPxRfiCYEXAMPLEKEY \
+            --conf spark.hadoop.fs.lakefs.endpoint=https://lakefs.example.com/api/v1/ \
+            --packages io.lakefs:lakefsfs:0.45.56
+            ...
 ```
 {% endtab %}
 

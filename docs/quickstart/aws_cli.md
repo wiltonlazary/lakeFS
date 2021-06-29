@@ -17,18 +17,19 @@ In this section we'll review how to copy files into lakeFS using the AWS CLI.
    # Default region name [None]:
    # Default output format [None]:
    ```
-   
+
 1. Let's test to see that it works. We'll do that by calling `s3 ls` which should list our repositories for us:
-   
+
    ```bash
    aws --endpoint-url=http://s3.local.lakefs.io:8000 --profile local s3 ls
    # output:
    # 2021-06-15 13:43:03 example-repo
    ```
-   
+
+   {% hint style="info" %}
    **Note:** We're using `s3.local.lakefs.io` - a special DNS record which always resolves to localhost, subdomains included.  
    Since S3's API uses [subdomains for bucket addressing](https://aws.amazon.com/blogs/aws/amazon-s3-path-deprecation-plan-the-rest-of-the-story/), simply using `localhost:8000` as an endpoint URL will not work.
-   {: .note .note-info }
+   {% endhint %}
 
 1. Great, now let's copy some files. We'll write to the main branch. This is done by prefixing our path with the name of the branch we'd like to read/write from:
 
@@ -41,7 +42,8 @@ In this section we'll review how to copy files into lakeFS using the AWS CLI.
 1. Back in the lakeFS UI, we should be able to see our file added to the main branch!
 
    ![Object Added](../assets/img/object_added.png)
-   
+
 ### Next steps
 
 Now that your repository contains some data, what about using the [lakeFS CLI](lakefs_cli.md) for committing, branching and viewing the history? 
+

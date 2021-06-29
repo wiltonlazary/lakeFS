@@ -1,3 +1,7 @@
+---
+description: Prerequisites required for all deploy types
+---
+
 # Prerequisites
 
 A production-suitable lakeFS installation will require three DNS records **pointing at your lakeFS server**.

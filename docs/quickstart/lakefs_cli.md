@@ -1,3 +1,7 @@
+---
+description: lakeFS own native CLI client
+---
+
 # Install lakeFS CLI
 
   lakeFS comes with its own native CLI client. You can see the complete command reference [here](../reference/commands.md).
@@ -9,8 +13,7 @@
   1. Download the CLI binary:
 
      [Download lakectl](../index.md#downloads)
-  
-  
+
   1. It's recommended that you place it somewhere in your PATH (this is OS dependant but for *NIX systems, `/usr/local/bin` is usually a safe bet).
   1. configure the CLI to use the credentials you've created earlier:
 
@@ -49,10 +52,11 @@
      # Date: 2021-06-15 13:48:37 +0300 IDT
        
            added our first file!
-       
      ```
 
+     {% hint style="info" %}
      **Note** lakeFS version <= v0.33.1 uses '@' (instead of '/') as separator between repository and branch.
+     {% endhint %}
 
 ### Next steps
 

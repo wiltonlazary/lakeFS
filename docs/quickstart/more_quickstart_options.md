@@ -4,7 +4,12 @@ description: Quickstart options. This section outlines additional quickstart opt
 
 # More Quickstart Options
 
-{% include learn_only.html %} 
+{% hint style="info" %}
+**Note:** The quickstart section is for learning purposes. The installations below will not persist your data.
+Instead, it will spin-up a database in a docker container, which will be discarded later.
+
+For a production suitable deployment, see [Deploy](../deploy).
+{% endhint %}
 
 ## Docker on Windows
 
@@ -24,6 +29,7 @@ To run a local lakeFS instance using [Docker Compose](https://docs.docker.com/co
 ## On Kubernetes with Helm
 
 You can install lakeFS on a Kubernetes cluster with the following commands:
+
 ```bash
 # Add the lakeFS Helm repository
 helm repo add lakefs https://charts.lakefs.io
@@ -42,7 +48,7 @@ Alternatively, you may opt to run the lakefs binary directly on your computer.
 1. Install and configure [PostgreSQL](https://www.postgresql.org/download/)
 
 1. Create a configuration file:
-    
+
    ```yaml
    ---
    database:
@@ -68,7 +74,7 @@ Alternatively, you may opt to run the lakefs binary directly on your computer.
    ```
 
 1. Run the server:
-    
+
    ```bash
    ./lakefs --config /path/to/config.yaml run
    ```

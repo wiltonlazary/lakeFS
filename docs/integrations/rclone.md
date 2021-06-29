@@ -5,7 +5,8 @@ description: Rclone is a command line program to sync files and directories betw
 # Copying data with rclone
 
 [Rclone](https://rclone.org/) is a command line program to sync files and directories between cloud providers.
-To use it with lakeFS, just create an Rclone remote as describe below, and then use it as you would any other Rclone remote.                                                                                                  
+To use it with lakeFS, just create an Rclone remote as describe below, and then use it as you would any other Rclone remote.
+
 ## Creating a remote for lakeFS in Rclone
 
 To add the remote to Rclone, choose one of the following options:
@@ -13,14 +14,14 @@ To add the remote to Rclone, choose one of the following options:
 ### Option 1: add an entry in your Rclone configuration file
 
 *   Find the path to your Rclone configuration file and copy it for the next step.
-    
+
     ```bash
     rclone config file
     # output:
     # Configuration file is stored at:
     # /home/myuser/.config/rclone/rclone.conf
     ```
-    
+
 *   If your lakeFS access key is already set in an AWS profile or environment variables, just run the following command, replacing the endpoint property with your lakeFS endpoint:
 
     ```bash
