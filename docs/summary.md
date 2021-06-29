@@ -20,9 +20,8 @@
 
 * Setup
   * [Prepare Your Storage](setup/storage/index.md)
-    * [Blob Storage Container](setup/storage/blob.md)
+    * [Azure Blob Storage](setup/storage/blob.md)
     * [GCS Bucket](setup/storage/gcs.md)
-    * [Storage](setup/storage/index.md)
     * [AWS S3 Bucket](setup/storage/s3.md)
   * [Create a Repository](setup/create-repo.md)
   * [Import](setup/import.md)
