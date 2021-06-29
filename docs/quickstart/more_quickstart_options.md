@@ -8,7 +8,7 @@ description: Quickstart options. This section outlines additional quickstart opt
 **Note:** The quickstart section is for learning purposes. The installations below will not persist your data.
 Instead, it will spin-up a database in a docker container, which will be discarded later.
 
-For a production suitable deployment, see [Deploy](../deploy).
+For a production suitable deployment, see [Deploy](../deploy/prerequisites.md).
 {% endhint %}
 
 ## Docker on Windows
