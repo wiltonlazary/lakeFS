@@ -60,4 +60,4 @@ description: lakeFS own native CLI client
 
 ### Next steps
 
-Once you're ready to test lakeFS with a real workflow, it's time to [deploy lakeFS to AWS](../deploy/index.md).
+Once you're ready to test lakeFS with a real workflow, it's time to [deploy lakeFS](/deploy).
