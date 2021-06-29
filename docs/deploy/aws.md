@@ -13,46 +13,51 @@ We will show you how to create a database on AWS RDS, but you can use any Postgr
 
 If you already have a database, take note of the connection string and skip to the [next step](#install-lakefs-on-ec2)
 
-1. Follow the official [AWS documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.PostgreSQL.html) on how to create a PostgreSQL instance and connect to it.  
-   You may use the default PostgreSQL engine, or [Aurora PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.AuroraPostgreSQL.html). Make sure you're using PostgreSQL version >= 11.
-2. Once your RDS is set up and the server is in `Available` state, take note of the endpoint and port.
+Follow the official [AWS documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.PostgreSQL.html) on how to create a PostgreSQL instance and connect to it.
+You may use the default PostgreSQL engine, or [Aurora PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.AuroraPostgreSQL.html). Make sure you're using PostgreSQL version >= 11.
 
-   ![RDS Connection String](../assets/img/rds_conn.png)
+Once your RDS is set up and the server is in `Available` state, take note of the endpoint and port.
 
-3. Make sure your security group rules allow you to connect to the database instance.
+![RDS Connection String](../assets/img/rds_conn.png)
+
+Make sure your security group rules allow you to connect to the database instance.
 
 ## Installation Options
 
 ### On EC2
 
-1. Save the following configuration file as `config.yaml`:
+Save the following configuration file as `config.yaml`:
 
-   ```yaml
-   ---
-   database:
-     connection_string: "[DATABASE_CONNECTION_STRING]"
-   auth:
-     encrypt:
-       # replace this with a randomly-generated string:
-       secret_key: "[ENCRYPTION_SECRET_KEY]"
-   blockstore:
-     type: s3
-     s3:
-       region: us-east-1
-   gateways:
-     s3:
-        # replace this with the host you will use for the lakeFS S3-compatible endpoint:
-        domain_name: [S3_GATEWAY_DOMAIN]
-   ```
+```yaml
+---
+database:
+ connection_string: "[DATABASE_CONNECTION_STRING]"
+auth:
+ encrypt:
+   # replace this with a randomly-generated string:
+   secret_key: "[ENCRYPTION_SECRET_KEY]"
+blockstore:
+ type: s3
+ s3:
+   region: us-east-1
+gateways:
+ s3:
+    # replace this with the host you will use for the lakeFS S3-compatible endpoint:
+    domain_name: [S3_GATEWAY_DOMAIN]
+```
 
-1. [Download the binary](../index.md#downloads) to the EC2 instance.
-1. Run the `lakefs` binary on the EC2 instance:
-   ```bash
-   lakefs --config config.yaml run
-   ```
-   **Note:** it is preferable to run the binary as a service using systemd or your operating system's facilities.
+[Download the binary](../index.md#downloads) to the EC2 instance.
+
+Run the `lakefs` binary on the EC2 instance:
+
+```bash
+lakefs --config config.yaml run
+```
+
+**Note:** it is preferable to run the binary as a service using systemd or your operating system's facilities.
 
 ### On ECS
+
 To support container-based environments like AWS ECS, lakeFS can be configured using environment variables. Here is a `docker run` 
 command to demonstrate starting lakeFS using Docker:
 
@@ -75,7 +80,7 @@ See [Kubernetes Deployment](./k8s.md).
 
 ## Load balancing
 
-Depending on how you chose to install lakeFS, you should have a load balancer direct requests to the lakeFS server.  
+Depending on how you chose to install lakeFS, you should have a load balancer direct requests to the lakeFS server.
 By default, lakeFS operates on port 8000, and exposes a `/_health` endpoint which you can use for health checks.
 
 ### Notes for using an AWS Application Load Balancer
@@ -97,4 +102,5 @@ For an AWS load balancer with Route53 DNS, create a simple record, and choose *A
 For other DNS providers, refer to the documentation on how to add CNAME records.
 
 ## Next Steps
+
 Your next step is to [prepare your storage](../setup/storage/index.md). If you already have a storage bucket/container, you are ready to [create your first lakeFS repository](../setup/create-repo.md).
