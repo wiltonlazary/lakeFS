@@ -26,7 +26,7 @@ Once we have a repository created, we can start [copying and modifying objects](
 
 1. Use the credentials from step #2 to login as an administrator
 1. Click `Create Repository`
-    
+
    ![Create Repository](../assets/img/create_repo_local.png)
 
    {% hint style="info" %}
