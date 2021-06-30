@@ -65,6 +65,7 @@
   * [Glue ETL](integrations/glue_etl.md)
   * [Kafka](integrations/kakfa.md)
   * [SageMaker](integrations/sagemaker.md)
+  * [Dremio](integrations/dremio.md)
 
 * Understanding lakeFS
   * [Architecture](understand/architecture.md)
