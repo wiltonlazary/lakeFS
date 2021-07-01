@@ -16,7 +16,7 @@ lakeFS stores data in an underlying [S3 bucket](https://aws.amazon.com/s3/) with
 
 ## lakeFS Components
 
-### S3 Gateway
+### <a name="s3-gateway"></a>S3 Gateway
 
 The API Gateway implements lakeFS' compatibility with S3. It implements a compatible subset of the S3 API to ensure most data systems can use lakeFS as a drop-in replacement for S3.
 
