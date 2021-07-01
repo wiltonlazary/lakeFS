@@ -43,7 +43,6 @@
   * [Migrating away from lakeFS](reference/offboarding.md)
   * [Upgrade lakeFS](reference/upgrade.md)
   * [Authentication & Authorization](reference/authorization.md)
-  * [Object Model](reference/object-model.md)
 
 * Integrations
   * [Copying Data with DistCp](integrations/distcp.md)
@@ -70,6 +69,7 @@
 * Understanding lakeFS
   * [Architecture](understand/architecture.md)
   * [Data Model](understand/data-model.md)
+  * [Object Model](understand/object-model.md)
   * [Branching Model](understand/branching-model.md)
   * [Sizing Guide](understand/sizing-guide.md)
   * [Roadmap](understand/roadmap.md)
