@@ -9,6 +9,7 @@ import io.lakefs.clients.api.model.*;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.fs.permission.FsPermission;
+import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.hadoop.util.Progressable;
 import org.apache.http.HttpStatus;
 import org.jetbrains.annotations.NotNull;
@@ -46,10 +47,13 @@ public class LakeFSFileSystem extends FileSystem {
 
     private Configuration conf;
     private URI uri;
-    private Path workingDirectory = new Path(Constants.SEPARATOR);
+    private Path workingDirectory;
     private LakeFSClient lfsClient;
     private int listAmount;
     private FileSystem fsForConfig;
+    /** Principal who created the FS; recorded during initialization. */
+    private UserGroupInformation owner;
+    private String username;
 
     private URI translateUri(URI uri) throws java.net.URISyntaxException {
         switch (uri.getScheme()) {
@@ -87,6 +91,17 @@ public class LakeFSFileSystem extends FileSystem {
         // based on path get underlying FileSystem
         Path path = new Path(name);
         ObjectLocation objectLoc = pathToObjectLocation(path);
+
+        // Setup working directory based on the same s3a implementation - should set before fs
+        // https://github.com/apache/hadoop/blob/trunk/hadoop-tools/hadoop-aws/src/main/java/org/apache/hadoop/fs/s3a/S3AFileSystem.java#L439
+        owner = UserGroupInformation.getCurrentUser();
+        username = owner.getShortUserName();
+        if (objectLoc.getRef().isEmpty()) {
+            workingDirectory = new Path(objectLoc.toString());
+        } else {
+            workingDirectory = new Path(ObjectLocation.formatPath(objectLoc.getScheme(), objectLoc.getRepository(), objectLoc.getRef(), "user" + SEPARATOR + username));
+        }
+
         RepositoriesApi repositoriesApi = lfsClient.getRepositories();
         try {
             Repository repository = repositoriesApi.getRepository(objectLoc.getRepository());
@@ -492,6 +507,16 @@ public class LakeFSFileSystem extends FileSystem {
         return true;
     }
 
+    @Override
+    public Path makeQualified(Path path) {
+        Path q = super.makeQualified(path);
+        ObjectLocation objectLocation = pathToObjectLocation(q);
+        if (objectLocation.isValidPath() && !q.isRoot() && q.getName().isEmpty()) {
+            q = q.getParent();
+        }
+        return q;
+    }
+
     /**
      * Delete parents directory markers from path until root.
      * Assume the caller created an object under the path which will make the empty directory irrelevant.
@@ -559,7 +584,7 @@ public class LakeFSFileSystem extends FileSystem {
 
     @Override
     public void setWorkingDirectory(Path path) {
-        this.workingDirectory = path;
+        this.workingDirectory = makeQualified(path);
     }
 
     @Override

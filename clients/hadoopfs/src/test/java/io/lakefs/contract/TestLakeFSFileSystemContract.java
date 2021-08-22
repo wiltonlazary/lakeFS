@@ -1,12 +1,8 @@
 package io.lakefs.contract;
 
-import java.io.IOException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystemContractBaseTest;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.fs.contract.ContractTestUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *  Tests a live S3 system. If your keys and bucket aren't specified, all tests
@@ -19,15 +15,12 @@ import org.slf4j.LoggerFactory;
  **/
 public class TestLakeFSFileSystemContract extends FileSystemContractBaseTest {
 
-  protected static final Logger LOG =
-      LoggerFactory.getLogger(TestLakeFSFileSystemContract.class);
   public static final String TEST_FS_LAKEFS_NAME = "test.fs.lakefs.name";
   private String pathPrefix;
 
   @Override
   public void setUp() throws Exception {
     Configuration conf = new Configuration();
-
     fs = LakeFSTestUtils.createTestFileSystem(conf);
 
     pathPrefix = conf.get(TEST_FS_LAKEFS_NAME) + "/main";
@@ -49,12 +42,16 @@ public class TestLakeFSFileSystemContract extends FileSystemContractBaseTest {
 
   @Override
   protected Path path(String pathString) {
-    return new Path(pathPrefix + pathString);
+    Path p = new Path(pathString);
+    if (p.isAbsolute()) {
+      return new Path(pathPrefix + p);
+    }
+    return p;
   }
 
   public void testRenameFileAsExistingFile() throws Exception {
     // TODO make this test green and uncomment
-      if (!renameSupported()) return;
+    if (!renameSupported()) return;
 //
 //    Path src = path("/test/hadoop/file");
 //    createFile(src);
@@ -102,6 +99,7 @@ public class TestLakeFSFileSystemContract extends FileSystemContractBaseTest {
 
   @Override
   public void testWorkingDirectory() throws Exception {
+    super.testWorkingDirectory();
     // TODO make this test green and remove override
   }
 
@@ -139,4 +137,6 @@ public class TestLakeFSFileSystemContract extends FileSystemContractBaseTest {
   public void testRenameFileMoveToNonExistentDirectory() throws Exception {
     // TODO make this test green and remove override
   }
+
+
 }

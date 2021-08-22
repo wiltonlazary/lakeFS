@@ -4,29 +4,27 @@ import io.lakefs.LakeFSFileSystem;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.s3a.Constants;
-import org.junit.internal.AssumptionViolatedException;
+import org.junit.AssumptionViolatedException;
 
 import java.io.IOException;
 import java.net.URI;
 
 public class LakeFSTestUtils {
 
-  public static LakeFSFileSystem createTestFileSystem(Configuration conf) throws
-      IOException {
-    String fsname = conf.getTrimmed(TestLakeFSFileSystemContract.TEST_FS_LAKEFS_NAME, "");
+  public static LakeFSFileSystem createTestFileSystem(Configuration conf) throws IOException {
+    String fsName = conf.getTrimmed(TestLakeFSFileSystemContract.TEST_FS_LAKEFS_NAME, "");
 
-
-    boolean liveTest = !StringUtils.isEmpty(fsname);
+    boolean liveTest = !StringUtils.isEmpty(fsName);
     URI testURI = null;
     if (liveTest) {
-      testURI = URI.create(fsname);
+      testURI = URI.create(fsName);
       liveTest = testURI.getScheme().equals("lakefs");
     }
     if (!liveTest) {
       // This doesn't work with our JUnit 3 style test cases, so instead we'll
       // make this whole class not run by default
       throw new AssumptionViolatedException(
-          "No test filesystem in " + TestLakeFSFileSystemContract.TEST_FS_LAKEFS_NAME);
+              "No test filesystem in " + TestLakeFSFileSystemContract.TEST_FS_LAKEFS_NAME);
     }
     LakeFSFileSystem fs1 = new LakeFSFileSystem();
     //enable purging in tests
