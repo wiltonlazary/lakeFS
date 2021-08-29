@@ -768,10 +768,7 @@ public class LakeFSFileSystemTest {
         mockExistingDirPath(dstObjLoc, ImmutableList.of(fileObjLoc));
 
         boolean renamed = fs.rename(src, dst);
-        Assert.assertTrue(renamed);
-        Path expectedDstPath = new Path("lakefs://repo/main/existing-dir2/existing.src");
-        Assert.assertTrue(dstPathLinkedToSrcPhysicalAddress(srcObjLoc, fs.pathToObjectLocation(expectedDstPath)));
-        verifyObjDeletion(srcObjLoc);
+        Assert.assertFalse(renamed);
     }
 
     /**
@@ -790,10 +787,7 @@ public class LakeFSFileSystemTest {
         mockNonExistingPath(dstObjLoc);
 
         boolean renamed = fs.rename(srcDir, dst);
-        Assert.assertTrue(renamed);
-        Path expectedDstPath = new Path("lakefs://repo/main/non-existing-dir/existing.src");
-        Assert.assertTrue(dstPathLinkedToSrcPhysicalAddress(fileObjLoc, fs.pathToObjectLocation(expectedDstPath)));
-        verifyObjDeletion(fileObjLoc);
+        Assert.assertFalse(renamed);
     }
 
     /**
