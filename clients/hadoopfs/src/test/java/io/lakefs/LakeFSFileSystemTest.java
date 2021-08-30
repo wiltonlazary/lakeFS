@@ -723,7 +723,7 @@ public class LakeFSFileSystemTest {
         Assert.assertFalse(renamed);
     }
 
-    @Test(expected = FileAlreadyExistsException.class)
+    @Test
     public void testRename_existingFileToExistingFileName() throws ApiException, IOException {
         Path src = new Path("lakefs://repo/main/existing.src");
         ObjectLocation srcObjLoc = fs.pathToObjectLocation(src);
@@ -733,10 +733,11 @@ public class LakeFSFileSystemTest {
         ObjectLocation dstObjLoc = fs.pathToObjectLocation(dst);
         mockExistingFilePath(dstObjLoc);
 
-        fs.rename(src, dst);
+        boolean success = fs.rename(src, dst);
+        Assert.assertTrue(success);
     }
 
-    @Test(expected = FileAlreadyExistsException.class)
+    @Test
     public void testRename_existingDirToExistingFileName() throws ApiException, IOException {
         Path fileInSrcDir = new Path("lakefs://repo/main/existing-dir/existing.src");
         ObjectLocation fileObjLoc = fs.pathToObjectLocation(fileInSrcDir);
@@ -748,7 +749,8 @@ public class LakeFSFileSystemTest {
         ObjectLocation dstObjLoc = fs.pathToObjectLocation(dst);
         mockExistingFilePath(dstObjLoc);
 
-        fs.rename(srcDir, dst);
+        boolean success = fs.rename(srcDir, dst);
+        Assert.assertFalse(success);
     }
 
     /**
@@ -840,7 +842,7 @@ public class LakeFSFileSystemTest {
         Mockito.verify(objectsApi, never()).deleteObject(any(), any(), any());
     }
 
-    @Test(expected = FileNotFoundException.class)
+    @Test
     public void testRename_nonExistingSrcFile() throws ApiException, IOException {
         Path src = new Path("lakefs://repo/main/non-existing.src");
         ObjectLocation srcObjLoc = fs.pathToObjectLocation(src);
@@ -850,6 +852,7 @@ public class LakeFSFileSystemTest {
         ObjectLocation dstObjLoc = fs.pathToObjectLocation(dst);
         mockExistingFilePath(dstObjLoc);
 
-        fs.rename(src, dst);
+        boolean success = fs.rename(src, dst);
+        Assert.assertFalse(success);
     }
 }
